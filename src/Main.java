@@ -11,6 +11,7 @@ public class Main {
         System.out.println("Digite o numero de Arestas");
         int are = ler.nextInt();
         
+        System.out.println("Teste");
         
         System.out.println("o numero de vértices são "+ ver);
         System.out.println("o numero de Arestas são "+ are);
