@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println("teste");
         int v;
         int x=0;
         ArrayList<Vertice> lista = new ArrayList();
