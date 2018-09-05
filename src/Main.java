@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("teste");
+        System.out.println("teste 123");
         int v;
         int x=0;
         ArrayList<Vertice> lista = new ArrayList();
