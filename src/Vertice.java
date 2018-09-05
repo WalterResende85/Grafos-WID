@@ -2,20 +2,25 @@ import java.util.ArrayList;
 
 public class Vertice {
 
-    ArrayList listaAdjacente = new ArrayList();
+    ArrayList<Vertice> listaAdjacente = new ArrayList();
     int nome;
     static int w=0;
     public Vertice() {
         nome=w;
         w++;
-        System.out.println("Vertice "+nome+" criado\n");
+        System.out.println("Vertice "+ nome +" criado\n");
     }
 
-    boolean insereAdjacente(int a) {
+    boolean insereAdjacente(Vertice a) {
         listaAdjacente.add(a);
         return true;
     }
+
+    public int getNome() {
+        return nome;
+    }
  
+    
 
     void mostrarAdjacentes() {
         for (int i = 0; i < listaAdjacente.size(); i++) {
