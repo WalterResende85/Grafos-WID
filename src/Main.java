@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         char v;
-        int x = 0;
+        
         ArrayList<Vertice> lista = new ArrayList();
         Scanner ler = new Scanner(System.in);
         do {
@@ -42,9 +42,6 @@ public class Main {
                     System.out.println("*");
                 }
             }
-            if (v == 's' || v == 'S') {
-                x++;
-            }
-        } while (x == 0);
+        } while (v != 's' || v != 'S');
     }
 }
