@@ -48,7 +48,7 @@ public class Main {
                 
             }
             
-            if (m == 5) {
+            if (m == 4) {
                 
             }
             
@@ -57,7 +57,6 @@ public class Main {
                 for (int i = 0; i < listaV.size(); i++) {
                     System.out.print("Vertice " + i + " liga: ");
                     listaV.get(i).mostrarAdjacentes();
-
                     System.out.println("*");
                 }
             }

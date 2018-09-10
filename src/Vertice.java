@@ -5,6 +5,7 @@ public class Vertice {
     private ArrayList<Aresta> listaAdjacente = new ArrayList();
     private int nome;
     private static int w=0;
+
     public Vertice() {
         nome=w;
         w++;
@@ -17,8 +18,10 @@ public class Vertice {
     }
  
     void mostrarAdjacentes() {
+        String z; //Controlar a impressão
         for (int i = 0; i < listaAdjacente.size(); i++) {
-            System.out.print(listaAdjacente.get(i)+"-->");
+            z= mostrarAdjacente(listaAdjacente.get(i));
+            System.out.print(z+"-->");
         }
     }
 
@@ -27,6 +30,16 @@ public class Vertice {
         return "" +this.nome;
     }
 
+    public String mostrarAdjacente(Aresta v) //para a impressão
+    {
+        String z;
+        int w;
+        z = v.toString();
+        w=z.indexOf("@");
+        z = z.substring(w+1,w+2);
+        return z;
+    } 
+    
     public ArrayList<Aresta> getListaAdjacente() {
         return listaAdjacente;
     }
