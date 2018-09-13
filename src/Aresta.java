@@ -37,7 +37,5 @@ public class Aresta {
     @Override
     public String toString() {
         return "" + nome;
-    }
-    
-    
+    }    
 }
