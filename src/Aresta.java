@@ -1,28 +1,30 @@
 public class Aresta {
-    private Vertice origem;
-    private Vertice destino;
-    private String nome;
-    public Aresta(Vertice origem, Vertice destino) {
+    private int origem;
+    private int destino;
+    private String nome;    //numero da aresta +origem+destino
+    private static int w = 1;
+    public Aresta(int origem, int destino) {
         this.origem = origem;
         this.destino = destino;
-        nome = ""+origem+"@"+destino+"";
+        nome = w+"@"+origem+"@"+destino+"";
+        w++;
         System.out.println("Aresta "+nome+" criada\n");
     }
 
     
-    public Vertice getDestino() {
+    public int getDestino() {
         return destino;
     }
 
-    public void setDestino(Vertice destino) {
+    public void setDestino(int destino) {
         this.destino = destino;
     }
 
-    public Vertice getOrigem() {
+    public int getOrigem() {
         return origem;
     }
 
-    public void setOrigem(Vertice origem) {
+    public void setOrigem(int origem) {
         this.origem = origem;
     }
 

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Vertice {
 
     private ArrayList<Aresta> listaAdjacente = new ArrayList();
-    private int nome;
+    private int id;
     private static int w = 0;
 
     public Vertice() {
-        nome = w;
+        id = this.w;
         w++;
-        System.out.println("Vertice " + nome + " criado\n");
+        System.out.println("Vertice " + id + " criado\n");
     }
 
     boolean insereAdjacente(Aresta a) {
@@ -19,21 +19,30 @@ public class Vertice {
     }
 
     void mostrarAdjacentes() {
-        String z; //Controlar a impressão
+        for (Aresta x : listaAdjacente) {
+            System.out.print("" + x.getDestino() + "-->");
+        }
+    }
+
+    public void removeVertice(int a) {
         for (int i = 0; i < listaAdjacente.size(); i++) {
-            z = mostrarAdjacente(listaAdjacente.get(i));
-            System.out.print(z + "-->");
+            if (listaAdjacente.get(i).getDestino() == a) {
+                listaAdjacente.remove(i);
+            }
+        }
+    }
+
+    public void removeAresta(String a) {
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if (listaAdjacente.get(i).getNome() == a) {
+                listaAdjacente.remove(i);
+            }
         }
     }
 
     @Override
     public String toString() {
-        return "" + this.nome;
-    }
-
-    public String mostrarAdjacente(Aresta v) //para a impressão
-    {
-        return ""+v.getDestino();
+        return "" + this.id;
     }
 
     public ArrayList<Aresta> getListaAdjacente() {
@@ -44,12 +53,12 @@ public class Vertice {
         this.listaAdjacente = listaAdjacente;
     }
 
-    public int getNome() {
-        return nome;
+    public int getId() {
+        return id;
     }
 
-    public void setNome(int nome) {
-        this.nome = nome;
+    public void getId(int id) {
+        this.id = id;
     }
 
 }
