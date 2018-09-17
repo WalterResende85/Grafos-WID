@@ -1,8 +1,9 @@
 public class Aresta {
     private int origem;
     private int destino;
-    private String nome;    //numero da aresta +origem+destino
+    private String nome;    //numero da aresta+origem+destino
     private static int w = 1;
+    
     public Aresta(int origem, int destino) {
         this.origem = origem;
         this.destino = destino;

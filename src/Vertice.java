@@ -60,5 +60,18 @@ public class Vertice {
     public void getId(int id) {
         this.id = id;
     }
-
+    
+    public int getGrauSaida(){
+        return this.listaAdjacente.size();
+    }
+    
+    public int getGrauEntrada(int x){
+        int z=0;
+         for (Aresta i: listaAdjacente){
+             if(i.getDestino() == x){
+             z++;
+             }
+         }
+         return z;
+    }
 }
