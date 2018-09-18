@@ -34,7 +34,7 @@ public class Vertice {
 
     public void removeAresta(String a) {
         for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getNome() == a) {
+            if (listaAdjacente.get(i).getNome().equalsIgnoreCase(a)) {
                 listaAdjacente.remove(i);
             }
         }

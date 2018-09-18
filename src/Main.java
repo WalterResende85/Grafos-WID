@@ -11,12 +11,12 @@ public class Main {
         Scanner ler = new Scanner(System.in);
         do {
             System.out.println("----------------MENU----------------");
-            System.out.println("        1- Criar Vertice ");//FUNCIONANDO
-            System.out.println("        2- Criar Aresta ");//FUNCIONANDO
-            System.out.println("        3- Remover Vertice");//FUNCIONANDO
-            System.out.println("        4- Remover Aresta");//NAOOOOOOOOOOOOOOOOOOOOO FUNCIONA
-            System.out.println("        5- Informação");//FUNCIONANDO
-            System.out.println("        0- para SAIR ");//FUNCIONANDO
+            System.out.println("        1- Criar Vertice ");
+            System.out.println("        2- Criar Aresta ");
+            System.out.println("        3- Remover Vertice");
+            System.out.println("        4- Remover Aresta");
+            System.out.println("        5- Informação");
+            System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
 
             m = ler.nextInt();
@@ -75,13 +75,11 @@ public class Main {
                 }
 
                 listaV.get(h).removeAresta(a);
-                System.out.println("Aresta " + a + " REMOVIDO");
-
             }
 
             if (m == 5) {
-                int z=0;      //Guardar o grau de saida
-                int q=0;        //index
+                int z = 0;        //Guardar o grau de saida
+                int q = 0;        //index
                 System.out.println("");
                 for (int i = 0; i < listaV.size(); i++) {
                     System.out.print("Vertice " + listaV.get(i).getId() + " liga em: ");
@@ -90,15 +88,15 @@ public class Main {
                 }
                 int grau = listaV.size();
                 System.out.println("Ordem do grafo: " + grau);
-                
+
                 for (Vertice x : listaV) {
                     System.out.println("Grau de SAIDA do Vertice " + x.getId() + " igual a : " + x.getGrauSaida());
-                    for (int i=0;i<listaV.size();i++) {
-                        z+=listaV.get(i).getGrauEntrada(q);
+                    for (int i = 0; i < listaV.size(); i++) {
+                        z += listaV.get(i).getGrauEntrada(q);
                     }
                     q++;
                     System.out.println("Grau de ENTRADA do Vertice " + x.getId() + " igual a : " + z);
-                    z=0;
+                    z = 0;
                 }
 
             }
