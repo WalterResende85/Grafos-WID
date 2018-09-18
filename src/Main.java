@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        int m; // variavel de controle do menu
+        int m; // variavel de controle do  menu
 
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
