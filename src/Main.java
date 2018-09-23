@@ -39,7 +39,9 @@ public class Main {
 
                 System.out.println("Informe vertice destino");
                 int b = ler.nextInt();
-                listaV.get(x).insereAdjacente(new Aresta(a, b));
+                System.out.println("Informe o peso da aresta");
+                int c = ler.nextInt();
+                listaV.get(x).insereAdjacente(new Aresta(a, b,c));
             }
 
             if (m == 3) {
