@@ -24,9 +24,17 @@ public class Vertice {
         }
     }
 
-    public void removeVertice(int a) {
+    public void removeArestaDosVertices(int a) {
         for (int i = 0; i < listaAdjacente.size(); i++) {
             if (listaAdjacente.get(i).getDestino() == a) {
+                listaAdjacente.remove(i);
+            }
+        }
+    }
+    
+    public void removeArestaDosVerticesNaoOrientado(int a) {
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if (listaAdjacente.get(i).getDestino() == a || listaAdjacente.get(i).getOrigem() == a) {
                 listaAdjacente.remove(i);
             }
         }

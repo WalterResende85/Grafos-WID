@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ public class Main {
         int m; // variavel de controle do  menu
         boolean tipo = true;
         boolean verificacao = true;
-
+        ArrayList<Aresta> listaA = new ArrayList();
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
         do {
@@ -19,9 +20,10 @@ public class Main {
             System.out.println("        5- Informação");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
-
             m = ler.nextInt();
             if (m == 1) {
+
+                //verificaçao do tipo de grafo, so acontece um vez na opção 1
                 if (verificacao) {
                     System.out.println("        1-Para grafo Orientado");
                     System.out.println("        2-Para grafo Não-orientado");
@@ -35,27 +37,13 @@ public class Main {
                     }
 
                 }
-
+                //fim da verificação
                 System.out.println("");
                 listaV.add(new Vertice());  //Cria o vertice
 
             }
             if (m == 2) {
-                if (tipo) {     //grafo orientado
-
-                    if (verificacao) {
-                        System.out.println("        1-Para grafo Orientado");
-                        System.out.println("        2-Para grafo Não-orientado");
-                        int a = ler.nextInt();
-                        if (a == 1) {
-                            tipo = true;
-                            verificacao = false;
-                        } else {
-                            tipo = false;
-                            verificacao = false;
-                        }
-
-                    }
+                if (tipo) {
                     System.out.println("");
                     System.out.println("Informe vertice origem");
                     int a = ler.nextInt();
@@ -65,25 +53,59 @@ public class Main {
                             x = i;
                         }
                     }
-
                     System.out.println("Informe vertice destino");
                     int b = ler.nextInt();
                     System.out.println("Informe o peso da aresta");
                     int c = ler.nextInt();
                     listaV.get(x).insereAdjacente(new Aresta(a, b, c));
                 }
-                if(!tipo){     //grafo não orientado
-                
+                if (!tipo) {     //grafo não orientado
+                    System.out.println("");
+                    System.out.println("Informe o primeiro vertice da aresta");
+                    int a = ler.nextInt();
+                    System.out.println("Informe o segundo vertice da aresta");
+                    int b = ler.nextInt();
+                    int x = 0;      //para descobrir o index do primeiro vertice da aresta
+                    int y = 0;      //para descobrir o index do segundo vertice da aresta
+                    for (int i = 0; i < listaV.size(); i++) {
+                        if (listaV.get(i).getId() == a) {       //index do 1
+                            x = i;
+                        }
+                        if (listaV.get(i).getId() == a) {       //index do 2
+                            y = i;
+                        }
+                    }
+                    System.out.println("Informe o peso da aresta");
+                    int c = ler.nextInt();
+                    listaA.add(new Aresta(a, b, c));
+                    listaV.get(x).insereAdjacente(listaA.get(listaA.size() - 1));//pegar a ultima aresta adicionada pra poder colocar nos VERTICES
+                    listaV.get(y).insereAdjacente(listaA.get(listaA.size() - 1));
                 }
-            }
 
-            if (m == 3) {
-                if (tipo) {
+                if (m == 3) {
+                    if (tipo) {
+                        System.out.println("Informe o id do vertice a ser REMOVIDO: ");
+                        int a = ler.nextInt();
+
+                        for (int i = 0; i < listaV.size(); i++) {
+                            listaV.get(i).removeArestaDosVertices(a);
+                        }
+                        int x = 0;      //para descobrir o index do vertice que sera removido
+                        for (int i = 0; i < listaV.size(); i++) {
+                            if (listaV.get(i).getId() == a) {
+                                x = i;
+                            }
+                        }
+                        listaV.remove(x);
+                        System.out.println("Vertice " + a + " REMOVIDO");
+                    }
+                }
+                if (!tipo) {
                     System.out.println("Informe o id do vertice a ser REMOVIDO: ");
                     int a = ler.nextInt();
 
                     for (int i = 0; i < listaV.size(); i++) {
-                        listaV.get(i).removeVertice(a);
+                        listaV.get(i).removeArestaDosVerticesNaoOrientado(a);
                     }
                     int x = 0;      //para descobrir o index do vertice que sera removido
                     for (int i = 0; i < listaV.size(); i++) {
@@ -93,6 +115,7 @@ public class Main {
                     }
                     listaV.remove(x);
                     System.out.println("Vertice " + a + " REMOVIDO");
+
                 }
             }
 
@@ -140,6 +163,8 @@ public class Main {
                 }
 
             }
-        } while (m != 0);
+        } while (m
+                != 0);
     }
+
 }
