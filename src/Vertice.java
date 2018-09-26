@@ -31,7 +31,7 @@ public class Vertice {
             }
         }
     }
-    
+
     public void removeArestaDosVerticesNaoOrientado(int a) {
         for (int i = 0; i < listaAdjacente.size(); i++) {
             if (listaAdjacente.get(i).getDestino() == a || listaAdjacente.get(i).getOrigem() == a) {
@@ -65,21 +65,51 @@ public class Vertice {
         return id;
     }
 
-    public void getId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
-    
-    public int getGrauSaida(){
+
+    public int getGrauSaida() {
         return this.listaAdjacente.size();
     }
-    
-    public int getGrauEntrada(int x){
-        int z=0;
-         for (Aresta i: listaAdjacente){
-             if(i.getDestino() == x){
-             z++;
-             }
-         }
-         return z;
+
+    public int getGrauEntrada(int x) {
+        int z = 0;
+        for (Aresta i : listaAdjacente) {
+            if (i.getDestino() == x) {
+                z++;
+            }
+        }
+        return z;
+    }
+
+    public int mostraGrau() {
+        return this.listaAdjacente.size();
+    }
+
+    public void mostrarConexao() {
+        /*
+        for (Aresta x : listaAdjacente) {
+            System.out.print("" + x.getDestino() + "-->");
+        }
+         */
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if (listaAdjacente.get(i).getOrigem() == this.id) {
+                System.out.print(listaAdjacente.get(i).getDestino() + "-->");
+            } else {
+                System.out.print(listaAdjacente.get(i).getOrigem() + "-->");
+            }
+        }
+    }
+
+    public boolean ligaEmTodos(Vertice x) {
+        boolean completo = false;
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if (listaAdjacente.get(i).getDestino() == x.id || listaAdjacente.get(i).getOrigem() == x.id) {
+                completo = true;
+            }
+        }
+
+        return completo;
     }
 }

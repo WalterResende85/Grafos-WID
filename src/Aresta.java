@@ -1,20 +1,28 @@
+
 public class Aresta {
+
     private int origem;
     private int destino;
     private String nome;    //numero da aresta@origem@destino
     private static int w = 1;
     private int peso;
-    
-    public Aresta(int origem, int destino,int peso) {
+
+    public Aresta(int origem, int destino, int peso) {
         this.origem = origem;
         this.destino = destino;
         this.peso = peso;
-        nome = w+"@"+origem+"@"+destino+"";
+        nome = w + "@" + origem + "@" + destino + "";
         w++;
-        System.out.println("Aresta "+nome+" criada\n");
+        System.out.println("Aresta " + nome + " criada\n");
     }
 
-    
+    public boolean conectaAoVertice(int x) {
+        if (this.destino == x || this.origem == x) {
+            return true;
+        }
+        return false;
+    }
+
     public int getDestino() {
         return destino;
     }
@@ -46,9 +54,9 @@ public class Aresta {
     public void setPeso(int peso) {
         this.peso = peso;
     }
-    
+
     @Override
     public String toString() {
         return "" + nome;
-    }    
+    }
 }
