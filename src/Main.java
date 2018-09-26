@@ -147,8 +147,7 @@ public class Main {
             if (m == 5) {
                 boolean regular = true;
                 boolean completo = true;
-                int primeiro = listaV.get(0).mostraGrau();
-                System.out.println("VALOR PRIMEIRO= " + primeiro);
+                int grauPrimeiro = listaV.get(0).mostraGrau();
                 if (tipo) {
                     for (int i = 0; i < listaV.size(); i++) { // imprime as ligacoes ordenadas
                         System.out.print("Vertice " + listaV.get(i).getId() + " aponta para: ");
@@ -177,7 +176,7 @@ public class Main {
                     }
                     for (Vertice x : listaV) {      //mostra ligaçoes dos vertices
                         System.out.println("Grau do vertice " + x.getId() + " é igual a: " + x.mostraGrau());
-                        if (x.mostraGrau() != primeiro) {      //se o grau de algum vertice for diferente do primeiro entao o grafo não é regular
+                        if (x.mostraGrau() != grauPrimeiro) {      //se o grau de algum vertice for diferente do primeiro entao o grafo não é regular
                             regular = false;
                         }
                         for (Vertice z : listaV) {      //verifica para todos os vertices x se eles se conectam com todos os vertices y
@@ -191,11 +190,12 @@ public class Main {
                 int ordem = listaV.size();      //ordem do grafo igual ao numero de Vertices existentes
                 System.out.println("Ordem do grafo: " + ordem);
                 if (regular) {
-                    System.out.println("GRAFO REGULAR");
+                    System.out.println("GRAFO "+grauPrimeiro+"-REGULAR");
                 } else {
                     System.out.println("GRAFO NAO REGULAR");
                 }
-
+                
+                
                 if (completo) {
                     System.out.println("GRAFO COMPLETO");
                 } else {
