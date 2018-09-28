@@ -47,17 +47,32 @@ public class Main {
                     System.out.println("");
                     System.out.println("Informe vertice origem");
                     int a = ler.nextInt();
-                    int x = 0;      //para descobrir o index do vertice origem da aresta
+                    int x = -1;      //para descobrir o index do vertice origem da aresta
                     for (int i = 0; i < listaV.size(); i++) {
                         if (listaV.get(i).getId() == a) {
                             x = i;
                         }
                     }
+
                     System.out.println("Informe vertice destino");
                     int b = ler.nextInt();
-                    System.out.println("Informe o peso da aresta");
-                    int c = ler.nextInt();
-                    listaV.get(x).insereAdjacente(new Aresta(a, b, c));
+                    int z = -1;      //para descobrir se o destino existe
+                    for (int i = 0; i < listaV.size(); i++) {
+                        if (listaV.get(i).getId() == b) {
+                            z = i;
+                        }
+                    }
+                    if (x == -1) {
+                        System.out.println("Vertice de origem não existe");
+                    }
+                    if (z == -1) {
+                        System.out.println("Vertice de destino não existe");
+                    }
+                    if (x != -1 && z != -1) {
+                        System.out.println("Informe o peso da aresta");
+                        int c = ler.nextInt();
+                        listaV.get(x).insereAdjacente(new Aresta(a, b, c));
+                    }
                 }
                 if (!tipo) {     //grafo não orientado
                     System.out.println("");
@@ -65,21 +80,31 @@ public class Main {
                     int a = ler.nextInt();
                     System.out.println("Informe o segundo vertice da aresta");
                     int b = ler.nextInt();
-                    int x = 0;      //para descobrir o index do primeiro vertice da aresta
-                    int y = 0;      //para descobrir o index do segundo vertice da aresta
+                    int x = -1;      //para descobrir o index do primeiro vertice da aresta
+                    int z = -1;      //para descobrir o index do segundo vertice da aresta
                     for (int i = 0; i < listaV.size(); i++) {
                         if (listaV.get(i).getId() == a) {       //index do 1
                             x = i;
                         }
                         if (listaV.get(i).getId() == b) {       //index do 2
-                            y = i;
+                            z = i;
                         }
                     }
-                    System.out.println("Informe o peso da aresta");
-                    int c = ler.nextInt();
-                    listaA.add(new Aresta(a, b, c));
-                    listaV.get(x).insereAdjacente(listaA.get(listaA.size() - 1));//pegar a ultima aresta adicionada pra poder colocar nos VERTICES
-                    listaV.get(y).insereAdjacente(listaA.get(listaA.size() - 1));
+
+                    if (x == -1) {
+                        System.out.println("Primeiro vertice não existe");
+                    }
+                    if (z == -1) {
+                        System.out.println("Segundo vertice não existe");
+                    }
+                    if (x != -1 && z != -1) {
+
+                        System.out.println("Informe o peso da aresta");
+                        int c = ler.nextInt();
+                        listaA.add(new Aresta(a, b, c));
+                        listaV.get(x).insereAdjacente(listaA.get(listaA.size() - 1));//pegar a ultima aresta adicionada pra poder colocar nos VERTICES
+                        listaV.get(z).insereAdjacente(listaA.get(listaA.size() - 1));
+                    }
                 }
             }
 
@@ -172,11 +197,13 @@ public class Main {
                         System.out.println("Grau de ENTRADA do Vertice " + x.getId() + " é igual a : " + z);
                         z = 0;
                     }
-                    
+
                     for (Vertice x : listaV) {
                         for (Vertice o : listaV) {
-                            if (!x.ligacao(o.getId())) {
+                            if (!x.ligacao(o.getId())) { //verifica se o x liga com o o
+                                if(!o.ligacao(x.getId())){  //se x nao liga com o verifica o contrario
                                 completo = false;
+                                }
                             }
                         }
                         x.setNumAdjacencia();               //set num de adjacencias de todos os vertices(desconsidera sentido)
