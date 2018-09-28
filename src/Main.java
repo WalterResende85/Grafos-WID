@@ -147,27 +147,57 @@ public class Main {
             if (m == 5) {
                 boolean regular = true;
                 boolean completo = true;
-                int grauPrimeiro = listaV.get(0).mostraGrau();
+
+                int grauEntradaPrimeiro = 0;
+                int grauSaidaPrimeiro = 0;
+                int numAdjacenciasPrimeiro = 0;
+
                 if (tipo) {
+
                     for (int i = 0; i < listaV.size(); i++) { // imprime as ligacoes ordenadas
                         System.out.print("Vertice " + listaV.get(i).getId() + " aponta para: ");
                         listaV.get(i).mostrarAdjacentes();
                         System.out.println("*");
                     }
                     int z = 0;        //Guardar o grau de saida
-                    int q = 0;        //index
-                    for (Vertice x : listaV) {      //mostra grau de entrada e saida do vertice
+                    int p = 0;
 
+                    for (Vertice x : listaV) {      //mostra grau de entrada e saida do vertice
                         System.out.println("Grau de SAIDA do Vertice " + x.getId() + " igual a : " + x.getGrauSaida());
                         for (int i = 0; i < listaV.size(); i++) {
-                            z += listaV.get(i).getGrauEntrada(q);
-                        }
-                        q++;
+                            z += listaV.get(i).VerificaSaida(listaV.get(p).getId());        //verifica as saidas de todos os vertices 
+                        }                                               //para ver quantos chegam no (vertice) q
+                        listaV.get(p).setGrauEntrada(z);                //insere no vertice q o numero de vertices que chegam nele
+                        p++;
                         System.out.println("Grau de ENTRADA do Vertice " + x.getId() + " é igual a : " + z);
                         z = 0;
                     }
+                    
+                    for (Vertice x : listaV) {
+                        for (Vertice o : listaV) {
+                            if (!x.ligacao(o.getId())) {
+                                completo = false;
+                            }
+                        }
+                        x.setNumAdjacencia();               //set num de adjacencias de todos os vertices(desconsidera sentido)
+                    }
+
+                    grauEntradaPrimeiro = listaV.get(0).getGrauEntrada();       //set para comparacao de grafo regular
+                    grauSaidaPrimeiro = listaV.get(0).getGrauSaida();           //set para comparacao de grafo regular
+                    numAdjacenciasPrimeiro = listaV.get(0).getNumAdjacencia();  //set para comparacao de grafo regular
+
+                    for (int i = 0; i < listaV.size(); i++) {
+                        if (listaV.get(i).getGrauEntrada() != grauEntradaPrimeiro
+                                || listaV.get(i).getGrauSaida() != grauSaidaPrimeiro
+                                || listaV.get(i).getNumAdjacencia() != numAdjacenciasPrimeiro) {
+                            //para ser regular os tres itens tem de ser igual para todos os vertices
+                            regular = false;
+                        }
+                    }
+
                 }
 
+                int grauPrimeiro = listaV.get(0).mostraGrau();
                 if (!tipo) {
                     for (int i = 0, j = 0; i < listaV.size(); i++) {        //mostra as conexoes
                         System.out.print("Vertice " + listaV.get(i).getId() + " conecta em: ");
@@ -190,12 +220,16 @@ public class Main {
                 int ordem = listaV.size();      //ordem do grafo igual ao numero de Vertices existentes
                 System.out.println("Ordem do grafo: " + ordem);
                 if (regular) {
-                    System.out.println("GRAFO "+grauPrimeiro+"-REGULAR");
+                    if (!tipo) {
+                        System.out.println("GRAFO " + grauPrimeiro + "-REGULAR");
+                    }
+                    if (tipo) {
+                        System.out.println("GRAFO " + grauPrimeiro + "-REGULAR");
+                    }
                 } else {
                     System.out.println("GRAFO NAO REGULAR");
                 }
-                
-                
+
                 if (completo) {
                     System.out.println("GRAFO COMPLETO");
                 } else {
@@ -205,6 +239,5 @@ public class Main {
             }
 
         } while (m != 0);
-
     }
 }

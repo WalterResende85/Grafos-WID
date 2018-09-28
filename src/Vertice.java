@@ -6,13 +6,16 @@ public class Vertice {
     private ArrayList<Aresta> listaAdjacente = new ArrayList();
     private int id;
     private static int w = 0;
-
+    private int grauEntrada;
+    private int grauSaida;
+    private int numAdjacencia;
+    
     public Vertice() {
         id = this.w;
         w++;
         System.out.println("Vertice " + id + " criado\n");
     }
-
+    
     boolean insereAdjacente(Aresta a) {
         listaAdjacente.add(a);
         return true;
@@ -69,11 +72,11 @@ public class Vertice {
         this.id = id;
     }
 
-    public int getGrauSaida() {
+    public int getGrauSaida() { //orientado
         return this.listaAdjacente.size();
     }
 
-    public int getGrauEntrada(int x) {
+    public int VerificaSaida(int x) {//orientado
         int z = 0;
         for (Aresta i : listaAdjacente) {
             if (i.getDestino() == x) {
@@ -83,10 +86,13 @@ public class Vertice {
         return z;
     }
 
-    public int mostraGrau() {
+    public int mostraGrau() { //para grafo não orientado
         return this.listaAdjacente.size();
     }
 
+    
+    
+    
     public void mostrarConexao() {
         /*
         for (Aresta x : listaAdjacente) {
@@ -102,7 +108,7 @@ public class Vertice {
         }
     }
 
-    public boolean ligaEmTodos(Vertice x) {
+    public boolean ligaEmTodos(Vertice x) { //nao-orientado
         boolean completo = false;
         for (int i = 0; i < listaAdjacente.size(); i++) {
             if (listaAdjacente.get(i).getDestino() == x.id || listaAdjacente.get(i).getOrigem() == x.id) {
@@ -112,4 +118,36 @@ public class Vertice {
 
         return completo;
     }
+
+    public boolean ligacao(int x){
+        if (x==this.id) {
+            //se verdadeiro o id passado pertence a esse vertice
+            return true;
+        }
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if(listaAdjacente.get(i).getDestino()==x || listaAdjacente.get(i).getOrigem() == x){
+            //se verdadeiro o id do vertice passado conecta chegando ou saindo com esse
+            return true;
+            }
+        }
+        return false;
+    }
+    
+    public int getGrauEntrada() {
+        return grauEntrada;
+    }
+
+    public void setGrauEntrada(int grauEntrada) {
+        this.grauEntrada = grauEntrada;
+    }
+
+    public void setNumAdjacencia() {
+        this.numAdjacencia = this.grauEntrada+this.getGrauSaida();
+    }  
+    
+    public int getNumAdjacencia() {
+        return numAdjacencia;
+    }
+
+      
 }
