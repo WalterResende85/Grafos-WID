@@ -7,15 +7,32 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        
+
         //orientado so o vertice de origem recebe a aresta
         //nao orientado ambos os vertices recebem a aresta
         int m; // variavel de controle do  menu
+        int k;//variavel de controle do tipo de grafo
         boolean tipo = true;
         boolean verificacao = true;
         ArrayList<Aresta> listaA = new ArrayList();
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
+
+        do { //verificaçao do tipo de grafo, so acontece um vez na opção 1
+            System.out.println("        Digite:");
+            System.out.println("        1-Para grafo Orientado");
+            System.out.println("        2-Para grafo Não-orientado");
+            k = ler.nextInt();
+            if (k == 1) {
+                tipo = true;                  //se verdadeiro grafo ORIENTADO
+                verificacao = false;          //true pra escolher o tipo e depois false pra nao entrar nesse sub menu mais
+            }
+            if (k == 2) {
+                tipo = false;                 //se falso grafo NAO-ORIENTADO
+                verificacao = false;
+            }
+        } while (k != 1 && k != 2);
+        //fim da verificação}while()
         do {
             System.out.println("----------------MENU----------------");
             System.out.println("        1- Criar Vertice ");
@@ -28,22 +45,6 @@ public class Main {
             System.out.println("-------------------------------------");
             m = ler.nextInt();
             if (m == 1) {
-
-                //verificaçao do tipo de grafo, so acontece um vez na opção 1
-                if (verificacao) {
-                    System.out.println("        1-Para grafo Orientado");
-                    System.out.println("        2-Para grafo Não-orientado");
-                    int a = ler.nextInt();
-                    if (a == 1) {
-                        tipo = true;                  //se verdadeiro grafo ORIENTADO
-                        verificacao = false;          //true pra escolher o tipo e depois false pra nao entrar nesse sub menu mais
-                    } else {
-                        tipo = false;                 //se falso grafo NAO-ORIENTADO
-                        verificacao = false;
-                    }
-
-                }
-                //fim da verificação
                 System.out.println("");
                 listaV.add(new Vertice());  //Cria o vertice
 
@@ -273,36 +274,35 @@ public class Main {
 
             if (m == 6) {
                 String g = "";
-                if(tipo){
+                if (tipo) {
                     g = "digraph graphname {";
-                for (Vertice x : listaV) {      //mostra grau de entrada e saida do vertice
-                       String a = x.criaStringOrientado();
-                       g = g+a;
+                    for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada e saida do vertice
+                        String a = listaV.get(i).criaStringOrientado();
+                        System.out.println("@@@ " + a);
+                        g = g + a;
                     }
-                    g = g+"}";
-                    System.out.println("String de criação:\n"+g);
+                    g = g + "}";
+                    System.out.println("String de criação:\n" + g);
                 }
-                
-                if(!tipo){
-                    
+
+                if (!tipo) {
+
                 }
-                
-                
+
                 // Criando um objeto da classe responsável por gerar a imagem do grafo
                 GraphView gv = new GraphView();
 
                 //Lendo a String 
                 gv.readString(g);
-                
+
                 //Imprimindo a grafo em texto
                 //System.out.println(gv.getDotSource());
-                
                 //Gerando uma imagem com o nome out.png 
                 File out = new File("out.png");
                 gv.writeGraphToFile(out);
 
-
-                }
+            }
         } while (m != 0);
     }
+
 }

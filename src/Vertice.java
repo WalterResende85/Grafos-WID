@@ -151,11 +151,13 @@ public class Vertice {
 
     public String criaStringOrientado(){
         String lista="";
-        for(Aresta x: listaAdjacente){
-        lista=""+this.id;
-        lista = lista+" -> "+x.getDestino();
+        for(int i = 0 ; i<listaAdjacente.size() ;i++){
+        lista=lista+""+this.id;
+        lista = lista+" -> "+listaAdjacente.get(i).getDestino();
+        lista = lista+"[label=\""+listaAdjacente.get(i).getPeso()+"\", fontcolor=darkgreen]";
         lista = lista+";";
         }
+        System.out.println("Lista "+this.id+" = "+lista);
         return lista;    
     }
 }

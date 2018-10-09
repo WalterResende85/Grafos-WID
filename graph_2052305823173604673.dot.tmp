@@ -1,0 +1,1 @@
+digraph graphname {0 -> 1[label="5", fontcolor=darkgreen];0 -> 2[label="7", fontcolor=darkgreen];}
