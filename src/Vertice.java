@@ -149,5 +149,13 @@ public class Vertice {
         return numAdjacencia;
     }
 
-      
+    public String criaStringOrientado(){
+        String lista="";
+        for(Aresta x: listaAdjacente){
+        lista=""+this.id;
+        lista = lista+" -> "+x.getDestino();
+        lista = lista+";";
+        }
+        return lista;    
+    }
 }

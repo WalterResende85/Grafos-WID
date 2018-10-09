@@ -1,10 +1,15 @@
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import edu.ifet.grafos.graphview.GraphView;
+import java.io.File;
 
 public class Main {
 
     public static void main(String[] args) {
+        
+        //orientado so o vertice de origem recebe a aresta
+        //nao orientado ambos os vertices recebem a aresta
         int m; // variavel de controle do  menu
         boolean tipo = true;
         boolean verificacao = true;
@@ -18,6 +23,7 @@ public class Main {
             System.out.println("        3- Remover Vertice");
             System.out.println("        4- Remover Aresta");
             System.out.println("        5- Informação");
+            System.out.println("        6- Para IMPRIMIR ");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
             m = ler.nextInt();
@@ -201,8 +207,8 @@ public class Main {
                     for (Vertice x : listaV) {
                         for (Vertice o : listaV) {
                             if (!x.ligacao(o.getId())) { //verifica se o x liga com o o
-                                if(!o.ligacao(x.getId())){  //se x nao liga com o verifica o contrario
-                                completo = false;
+                                if (!o.ligacao(x.getId())) {  //se x nao liga com o verifica o contrario
+                                    completo = false;
                                 }
                             }
                         }
@@ -265,6 +271,38 @@ public class Main {
 
             }
 
+            if (m == 6) {
+                String g = "";
+                if(tipo){
+                    g = "digraph graphname {";
+                for (Vertice x : listaV) {      //mostra grau de entrada e saida do vertice
+                       String a = x.criaStringOrientado();
+                       g = g+a;
+                    }
+                    g = g+"}";
+                    System.out.println("String de criação:\n"+g);
+                }
+                
+                if(!tipo){
+                    
+                }
+                
+                
+                // Criando um objeto da classe responsável por gerar a imagem do grafo
+                GraphView gv = new GraphView();
+
+                //Lendo a String 
+                gv.readString(g);
+                
+                //Imprimindo a grafo em texto
+                //System.out.println(gv.getDotSource());
+                
+                //Gerando uma imagem com o nome out.png 
+                File out = new File("out.png");
+                gv.writeGraphToFile(out);
+
+
+                }
         } while (m != 0);
     }
 }
