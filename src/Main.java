@@ -286,7 +286,14 @@ public class Main {
                 }
 
                 if (!tipo) {
-
+                    g = "graph graphname {";
+                    for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada e saida do vertice
+                        String a = listaV.get(i).criaStringNaoOrientada();
+                        //System.out.println("@@@ " + a);
+                        g = g + a;
+                    }
+                    g = g + "}";
+                    System.out.println("String de criação:\n" + g);
                 }
 
                 // Criando um objeto da classe responsável por gerar a imagem do grafo
