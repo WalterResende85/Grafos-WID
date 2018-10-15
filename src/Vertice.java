@@ -160,4 +160,17 @@ public class Vertice {
         System.out.println("Lista "+this.id+" = "+lista);
         return lista;    
     }
+    public String criaStringNaoOrientada() {
+        String lista = "";
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if (listaAdjacente.get(i).getOrigem() == this.id) {
+                lista = lista + "" + this.id;
+                lista = lista + " -- " + listaAdjacente.get(i).getDestino();
+                lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=red]";
+                lista = lista + ";";
+            }
+        }
+        System.out.println("Lista "+this.id+" = "+lista);
+        return lista;
+    }
 }
