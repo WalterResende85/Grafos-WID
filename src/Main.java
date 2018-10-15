@@ -2,11 +2,16 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import edu.ifet.grafos.graphview.GraphView;
-import java.io.File;
+import java.io.File;            //gravação
+import java.io.FileWriter;      //gravação
+import java.io.PrintWriter;     //gravação
+import java.io.IOException;     //leitura e gravação
+import java.io.BufferedReader;  //leitura
+import java.io.FileReader;      //leitura
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //orientado so o vertice de origem recebe a aresta
         //nao orientado ambos os vertices recebem a aresta
@@ -22,6 +27,7 @@ public class Main {
             System.out.println("        Digite:");
             System.out.println("        1-Para grafo Orientado");
             System.out.println("        2-Para grafo Não-orientado");
+            System.out.println("        3-Para IMPRIMIR a partir de um txt");
             k = ler.nextInt();
             if (k == 1) {
                 tipo = true;                  //se verdadeiro grafo ORIENTADO
@@ -31,16 +37,40 @@ public class Main {
                 tipo = false;                 //se falso grafo NAO-ORIENTADO
                 verificacao = false;
             }
+            if (k == 3) {
+                Scanner input = new Scanner(System.in);
+                System.out.printf("Informe o nome de arquivo texto(EX: grafo.txt):\n");
+                String grafo = input.nextLine();
+                try {
+                    FileReader arq = new FileReader(grafo);
+                    BufferedReader lerArq = new BufferedReader(arq);
+
+                    GraphView pl = new GraphView();
+                    String grafoL = lerArq.readLine();
+                    pl.readString(grafoL);
+                    System.out.println(pl.getDotSource());
+                    File grafoLeitura = new File("grafoLeitura.png");
+                    pl.writeGraphToFile(grafoLeitura);
+                    System.out.println("grafoLeitura.png FOI GRAVADO");
+
+                    arq.close();
+                } catch (IOException e) {
+                    System.err.printf("Erro na abertura do arquivo: %s.\n",
+                            e.getMessage());
+                }
+
+            }
         } while (k != 1 && k != 2);
         //fim da verificação}while()
         do {
+            System.out.println("");
             System.out.println("----------------MENU----------------");
             System.out.println("        1- Criar Vertice ");
             System.out.println("        2- Criar Aresta ");
             System.out.println("        3- Remover Vertice");
             System.out.println("        4- Remover Aresta");
             System.out.println("        5- Informação");
-            System.out.println("        6- Para IMPRIMIR ");
+            System.out.println("        6- Para criar a imagem e o arquivo txt");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
             m = ler.nextInt();
@@ -281,7 +311,6 @@ public class Main {
                         g = g + a;
                     }
                     g = g + "}";
-                    System.out.println("String de criação:\n" + g);
                 }
 
                 if (!tipo) {
@@ -291,23 +320,27 @@ public class Main {
                         g = g + a;
                     }
                     g = g + "}";
-                    System.out.println("String de criação:\n" + g);
                 }
+
+                FileWriter arq = new FileWriter("grafo.txt");
+                PrintWriter gravarArq = new PrintWriter(arq);
+                gravarArq.printf(g);
+                arq.close();
+                System.out.println("Arquivo grafo.txt gravado");
 
                 // Criando um objeto da classe responsável por gerar a imagem do grafo
                 GraphView gv = new GraphView();
-
                 //Lendo a String 
                 gv.readString(g);
-
                 //Imprimindo a grafo em texto
-                //System.out.println(gv.getDotSource());
+
+                System.out.println(gv.getDotSource());
                 //Gerando uma imagem com o nome out.png 
-                File out = new File("out.png");
-                gv.writeGraphToFile(out);
+                File grafo = new File("grafo.png");
+                gv.writeGraphToFile(grafo);
+                System.out.println("grafo.png FOI GRAVADO");
 
             }
         } while (m != 0);
     }
-
 }

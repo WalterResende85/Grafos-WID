@@ -9,13 +9,13 @@ public class Vertice {
     private int grauEntrada;
     private int grauSaida;
     private int numAdjacencia;
-    
+
     public Vertice() {
         id = this.w;
         w++;
         System.out.println("Vertice " + id + " criado\n");
     }
-    
+
     boolean insereAdjacente(Aresta a) {
         listaAdjacente.add(a);
         return true;
@@ -90,9 +90,6 @@ public class Vertice {
         return this.listaAdjacente.size();
     }
 
-    
-    
-    
     public void mostrarConexao() {
         /*
         for (Aresta x : listaAdjacente) {
@@ -119,20 +116,20 @@ public class Vertice {
         return completo;
     }
 
-    public boolean ligacao(int x){
-        if (x==this.id) {
+    public boolean ligacao(int x) {
+        if (x == this.id) {
             //se verdadeiro o id passado pertence a esse vertice
             return true;
         }
         for (int i = 0; i < listaAdjacente.size(); i++) {
-            if(listaAdjacente.get(i).getDestino()==x || listaAdjacente.get(i).getOrigem() == x){
-            //se verdadeiro o id do vertice passado conecta chegando ou saindo com esse
-            return true;
+            if (listaAdjacente.get(i).getDestino() == x || listaAdjacente.get(i).getOrigem() == x) {
+                //se verdadeiro o id do vertice passado conecta chegando ou saindo com esse
+                return true;
             }
         }
         return false;
     }
-    
+
     public int getGrauEntrada() {
         return grauEntrada;
     }
@@ -142,32 +139,40 @@ public class Vertice {
     }
 
     public void setNumAdjacencia() {
-        this.numAdjacencia = this.grauEntrada+this.getGrauSaida();
-    }  
-    
+        this.numAdjacencia = this.grauEntrada + this.getGrauSaida();
+    }
+
     public int getNumAdjacencia() {
         return numAdjacencia;
     }
 
-    public String criaStringOrientado(){
-        String lista="";
-        for(int i = 0 ; i<listaAdjacente.size() ;i++){
-        lista=lista+""+this.id;
-        lista = lista+" -> "+listaAdjacente.get(i).getDestino();
-        lista = lista+"[label=\""+listaAdjacente.get(i).getPeso()+"\", fontcolor=darkgreen]";
-        lista = lista+";";
+    public String criaStringOrientado() {
+        String lista = "";
+        if (listaAdjacente.isEmpty()) {
+            lista = this.id + ";";
+        } else {
+            for (int i = 0; i < listaAdjacente.size(); i++) {
+                lista = lista + "" + this.id;
+                lista = lista + " -> " + listaAdjacente.get(i).getDestino();
+                lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=darkgreen]";
+                lista = lista + ";";
+            }
         }
-
-        return lista;    
+        return lista;
     }
+
     public String criaStringNaoOrientada() {
         String lista = "";
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getOrigem() == this.id) {
-                lista = lista + "" + this.id;
-                lista = lista + " -- " + listaAdjacente.get(i).getDestino();
-                lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=red]";
-                lista = lista + ";";
+        if (listaAdjacente.isEmpty()) {
+            lista = this.id + ";";
+        } else {
+            for (int i = 0; i < listaAdjacente.size(); i++) {
+                if (listaAdjacente.get(i).getOrigem() == this.id) {
+                    lista = lista + "" + this.id;
+                    lista = lista + " -- " + listaAdjacente.get(i).getDestino();
+                    lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=red]";
+                    lista = lista + ";";
+                }
             }
         }
         return lista;
