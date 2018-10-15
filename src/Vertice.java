@@ -72,7 +72,7 @@ public class Vertice {
         this.id = id;
     }
 
-    public int getGrauSaida() { //orientado
+    public int getGrauSaida() { //orientado (o numero de aresta representa o numero de saidas desse vertice)
         return this.listaAdjacente.size();
     }
 

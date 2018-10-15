@@ -216,21 +216,22 @@ public class Main {
 
                 if (tipo) {
 
-                    for (int i = 0; i < listaV.size(); i++) { // imprime as ligacoes ordenadas
+                    for (int i = 0; i < listaV.size(); i++) { // IMPRIME AS LIGACOES (NAO VERIFICA NADA)
                         System.out.print("Vertice " + listaV.get(i).getId() + " aponta para: ");
                         listaV.get(i).mostrarAdjacentes();
                         System.out.println("*");
                     }
+                    
                     int z = 0;        //Guardar o grau de saida
                     int p = 0;
 
                     for (Vertice x : listaV) {      //mostra grau de entrada e saida do vertice
                         System.out.println("Grau de SAIDA do Vertice " + x.getId() + " igual a : " + x.getGrauSaida());
                         for (int i = 0; i < listaV.size(); i++) {
-                            z += listaV.get(i).VerificaSaida(listaV.get(p).getId());        //verifica as saidas de todos os vertices 
-                        }                                               //para ver quantos chegam no (vertice) q
-                        listaV.get(p).setGrauEntrada(z);                //insere no vertice q o numero de vertices que chegam nele
-                        p++;
+                            z += listaV.get(i).VerificaSaida(x.getId());        //SOMA QUANTAS ARESTA CHEGA EM P (SAINDO DE TODOS OS VERTICES)
+                        }                                               
+                        listaV.get(p).setGrauEntrada(z);                //VERTICE P TEM O GRAU DE ENTRADA IGUAL A Z
+                        p++;                                            //PRA VERIFICAR O PROXIMO VERTICE
                         System.out.println("Grau de ENTRADA do Vertice " + x.getId() + " é igual a : " + z);
                         z = 0;
                     }
@@ -238,12 +239,12 @@ public class Main {
                     for (Vertice x : listaV) {
                         for (Vertice o : listaV) {
                             if (!x.ligacao(o.getId())) { //verifica se o x liga com o o
-                                if (!o.ligacao(x.getId())) {  //se x nao liga com o verifica o contrario
+                                if (!o.ligacao(x.getId())) {  //se x nao liga com o verifica o contrario, pq ignora o sentido (a->b == b->a)
                                     completo = false;
                                 }
                             }
                         }
-                        x.setNumAdjacencia();               //set num de adjacencias de todos os vertices(desconsidera sentido)
+                        x.setNumAdjacencia();               //set num de adjacencias de todos os vertices(desconsidera sentido) entrada + saida
                     }
 
                     grauEntradaPrimeiro = listaV.get(0).getGrauEntrada();       //set para comparacao de grafo regular
@@ -260,36 +261,31 @@ public class Main {
                     }
 
                 }
-
                 int grauPrimeiro = listaV.get(0).mostraGrau();
                 if (!tipo) {
-                    for (int i = 0, j = 0; i < listaV.size(); i++) {        //mostra as conexoes
+
+                    for (int i = 0, j = 0; i < listaV.size(); i++) {        //IMPRIME AS CONEXOES (NAO VERIFICA NADA)
                         System.out.print("Vertice " + listaV.get(i).getId() + " conecta em: ");
                         listaV.get(i).mostrarConexao();
                         System.out.println("*");
                     }
+
                     for (Vertice x : listaV) {      //mostra ligaçoes dos vertices
                         System.out.println("Grau do vertice " + x.getId() + " é igual a: " + x.mostraGrau());
-                        if (x.mostraGrau() != grauPrimeiro) {      //se o grau de algum vertice for diferente do primeiro entao o grafo não é regular
+                        if (x.mostraGrau() != grauPrimeiro) {      //VERIFICA O GRAU DE TODOS OS VERTICES, SE TODOS IGUAIS==GRAFO REGULAR, SE DIFERENTES==GRAFO NAO REGULAR
                             regular = false;
                         }
-                        for (Vertice z : listaV) {      //verifica para todos os vertices x se eles se conectam com todos os vertices y
+                        for (Vertice z : listaV) {      //VERIFICA SE TODOS OS VERTICES CONETAM ENTRE SI, SE TODOS SE CONECTAM==GRAFO COMPLETO, SE TODOS NAO SE CONECTAM==GRAFO NAO COMPLETO
                             if (!x.ligaEmTodos(z)) {
                                 completo = false;
                             }
                         }
                     }
                 }
-
                 int ordem = listaV.size();      //ordem do grafo igual ao numero de Vertices existentes
                 System.out.println("Ordem do grafo: " + ordem);
                 if (regular) {
-                    if (!tipo) {
-                        System.out.println("GRAFO " + grauPrimeiro + "-REGULAR");
-                    }
-                    if (tipo) {
-                        System.out.println("GRAFO " + grauPrimeiro + "-REGULAR");
-                    }
+                    System.out.println("GRAFO " + grauPrimeiro + "-REGULAR");
                 } else {
                     System.out.println("GRAFO NAO REGULAR");
                 }
