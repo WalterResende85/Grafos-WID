@@ -278,7 +278,6 @@ public class Main {
                     g = "digraph graphname {";
                     for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada e saida do vertice
                         String a = listaV.get(i).criaStringOrientado();
-                        System.out.println("@@@ " + a);
                         g = g + a;
                     }
                     g = g + "}";
@@ -289,7 +288,6 @@ public class Main {
                     g = "graph graphname {";
                     for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada e saida do vertice
                         String a = listaV.get(i).criaStringNaoOrientada();
-                        //System.out.println("@@@ " + a);
                         g = g + a;
                     }
                     g = g + "}";

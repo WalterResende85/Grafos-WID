@@ -157,7 +157,7 @@ public class Vertice {
         lista = lista+"[label=\""+listaAdjacente.get(i).getPeso()+"\", fontcolor=darkgreen]";
         lista = lista+";";
         }
-        System.out.println("Lista "+this.id+" = "+lista);
+
         return lista;    
     }
     public String criaStringNaoOrientada() {
@@ -170,7 +170,6 @@ public class Vertice {
                 lista = lista + ";";
             }
         }
-        System.out.println("Lista "+this.id+" = "+lista);
         return lista;
     }
 }
