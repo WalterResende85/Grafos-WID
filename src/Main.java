@@ -139,9 +139,6 @@ public class Main {
                 }
             }
 
-            
-////////FALTA CONCERTAR(MELHORAR) O CODIGO DO 4 EM DIANTE/////////////
-            
             if (m == 4) {
 
                 System.out.println("Informe o nome da aresta a ser REMOVIDO(EX: 1@1@2): ");
@@ -150,34 +147,33 @@ public class Main {
                 int f = a.indexOf("@") + 1;        //pegar o numero entre as arrobas ...
                 int g = a.lastIndexOf("@");    //... pra definir em qual vertice essa aresta esta
                 String index = a.substring(f, g);    // coloca esse numero em uma nova String
-                int d = Integer.parseInt(index);    //Transforma esse numero tipo String em um int
-                int e = 0;
+                //Transforma esse numero tipo String em um int
+
+                int d = Integer.parseInt(index);    //d == vertice de entrada da aresta a ser removida
+                int e = 0;                          //e== vertice de saida da aresta a ser removida
+
                 if (!tipo) {  //se o grafo for não-direcional é preciso pegar o ultimo numero do id tambem
                     g++;
                     String index2 = a.substring(g);
                     e = Integer.parseInt(index2);   // e = utimo numero do id
                 }
-                int h = 0;      //para descobrir o index do vertice de numero que foi descoberto em cima(d)
-                int j = 0;      //para descobrir o index do outro vertice que tem essa aresta em caso de grafo nao_ordenado
-                
-                for (int i = 0; i < listaV.size(); i++) {
-                    if (listaV.get(i).getId() == d) { //se o id do vertice for igual ao numero de entrada(d) da aresta(a)
-                        h = i;      //h = indice do vertice onde a aresta sera removida
-                    }
-                    if (tipo) {     //se o grafo for não-direcional é preciso retirar a aresta do vertice de id igual a (e)
-                        if (listaV.get(i).getId() == e) { //se o id do vertice for igual ao numero de "saida"(e) da aresta (a)
-                            j = i;      //h = indice do vertice onde a aresta sera removida
-                        }
-                    }
 
-                    listaV.get(h).removeAresta(a);
-                    /*remove a aresta do vertice de entrada em caso de ordenado
-                            ou remove a aresta do primeiro vertice em caso de não-ordenado*/
-                    if (!tipo) {
-                        listaV.get(j).removeAresta(a);
-                    }
-                    //remove a aresta do segundo vertice em caso de não-ordenado
+                int h = percorreGrafo(d, listaV);      //para descobrir o index do vertice de numero que foi descoberto em cima(d)
+                int j = 0;
+                if (!tipo) {
+                    j = percorreGrafo(e, listaV);      //para descobrir o index do outro vertice que tem essa aresta em caso de grafo nao_ordenado
                 }
+
+                if (h != -1 && j != -1) {
+                    listaV.get(h).removeAresta(a); //remove a aresta do vertice de entrada em caso de ordenado
+                    //  ou remove a aresta do primeiro vertice em caso de não-ordenado                    
+                }
+                if (h != -1 && j != -1 && !tipo) {
+                    listaV.get(j).removeAresta(a);         //remove a aresta do segundo vertice em caso de não-orientado
+                }
+
+////////FALTA CONCERTAR(MELHORAR) O CODIGO DO 5 EM DIANTE/////////////
+                
             }
             if (m == 5) {
                 boolean regular = true;
@@ -313,12 +309,15 @@ public class Main {
         } while (m != 0);
     }
 
-  public static int percorreGrafo(int a, ArrayList<Vertice> listaV) {
+    public static int percorreGrafo(int a, ArrayList<Vertice> listaV) {
         int x = -1;      //para descobrir o index do vertice origem da aresta
         for (int i = 0; i < listaV.size(); i++) {
             if (listaV.get(i).getId() == a) {
                 x = i;
             }
+        }
+        if (x == -1) {
+            System.out.println("ERRO: VErtice ou aresta acessada não existe");
         }
         return x;
     }
