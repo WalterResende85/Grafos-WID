@@ -22,7 +22,6 @@ public class Main {
         ArrayList<Aresta> listaA = new ArrayList();
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
-
         do { //verificaçao do tipo de grafo, so acontece um vez na opção 1
             System.out.println("        Digite:");
             System.out.println("        1-Para grafo Orientado");
@@ -84,31 +83,18 @@ public class Main {
                     System.out.println("");
                     System.out.println("Informe vertice origem");
                     int a = ler.nextInt();
-                    int x = -1;      //para descobrir o index do vertice origem da aresta
-                    for (int i = 0; i < listaV.size(); i++) {
-                        if (listaV.get(i).getId() == a) {
-                            x = i;
-                        }
-                    }
-
+                    int x = percorreGrafo(a, listaV);                    //metodo pra percorrer o grafo e reduzir/simplificar o codigo
                     System.out.println("Informe vertice destino");
                     int b = ler.nextInt();
-                    int z = -1;      //para descobrir se o destino existe
-                    for (int i = 0; i < listaV.size(); i++) {
-                        if (listaV.get(i).getId() == b) {
-                            z = i;
-                        }
-                    }
-                    if (x == -1) {
-                        System.out.println("Vertice de origem não existe");
-                    }
-                    if (z == -1) {
-                        System.out.println("Vertice de destino não existe");
-                    }
+                    int z = percorreGrafo(b, listaV);
+                    printExisteVertice(x, 1, tipo);
+                    printExisteVertice(z, 2, tipo);
                     if (x != -1 && z != -1) {
                         System.out.println("Informe o peso da aresta");
                         int c = ler.nextInt();
                         listaV.get(x).insereAdjacente(new Aresta(a, b, c));
+                    } else {
+                        System.out.println("ARESTA NÂO FOI CRIADA!!!!!");
                     }
                 }
                 if (!tipo) {     //grafo não orientado
@@ -117,40 +103,26 @@ public class Main {
                     int a = ler.nextInt();
                     System.out.println("Informe o segundo vertice da aresta");
                     int b = ler.nextInt();
-                    int x = -1;      //para descobrir o index do primeiro vertice da aresta
-                    int z = -1;      //para descobrir o index do segundo vertice da aresta
-                    for (int i = 0; i < listaV.size(); i++) {
-                        if (listaV.get(i).getId() == a) {       //index do 1
-                            x = i;
-                        }
-                        if (listaV.get(i).getId() == b) {       //index do 2
-                            z = i;
-                        }
-                    }
-
-                    if (x == -1) {
-                        System.out.println("Primeiro vertice não existe");
-                    }
-                    if (z == -1) {
-                        System.out.println("Segundo vertice não existe");
-                    }
+                    int x = percorreGrafo(a, listaV);     //para descobrir o index do primeiro vertice da aresta
+                    int z = percorreGrafo(b, listaV);     //para descobrir o index do segundo vertice da aresta
+                    printExisteVertice(x, 1, tipo);
+                    printExisteVertice(z, 2, tipo);
                     if (x != -1 && z != -1) {
-
                         System.out.println("Informe o peso da aresta");
                         int c = ler.nextInt();
                         listaA.add(new Aresta(a, b, c));
                         listaV.get(x).insereAdjacente(listaA.get(listaA.size() - 1));//pegar a ultima aresta adicionada pra poder colocar nos VERTICES
                         listaV.get(z).insereAdjacente(listaA.get(listaA.size() - 1));
+                    } else {
+                        System.out.println("ARESTA NÂO FOI CRIADA!!!!!");
                     }
                 }
             }
 
             if (m == 3) {
-
                 System.out.println("Informe o id do vertice a ser REMOVIDO: ");
                 int a = ler.nextInt();
-
-                for (int i = 0; i < listaV.size(); i++) {
+                for (int i = 0; i < listaV.size(); i++) {               //REMOVE AS ARESTAS LIGADAS A ESSE VERTICE
                     if (tipo) {
                         listaV.get(i).removeArestaDosVertices(a);
                     }
@@ -158,17 +130,18 @@ public class Main {
                         listaV.get(i).removeArestaDosVerticesNaoOrientado(a);
                     }
                 }
-                int x = 0;      //para descobrir o index do vertice que sera removido
-                for (int i = 0; i < listaV.size(); i++) {
-                    if (listaV.get(i).getId() == a) {
-                        x = i;
-                    }
+                int x = percorreGrafo(a, listaV);      //para descobrir o index do vertice que sera removido
+                if (x == -1) {
+                    System.out.println("Vertice informado não existe");
+                } else {
+                    listaV.remove(x);
+                    System.out.println("Vertice " + a + " REMOVIDO");
                 }
-                listaV.remove(x);
-                System.out.println("Vertice " + a + " REMOVIDO");
-
             }
 
+            
+////////FALTA CONCERTAR(MELHORAR) O CODIGO DO 4 EM DIANTE/////////////
+            
             if (m == 4) {
 
                 System.out.println("Informe o nome da aresta a ser REMOVIDO(EX: 1@1@2): ");
@@ -184,9 +157,9 @@ public class Main {
                     String index2 = a.substring(g);
                     e = Integer.parseInt(index2);   // e = utimo numero do id
                 }
-
                 int h = 0;      //para descobrir o index do vertice de numero que foi descoberto em cima(d)
                 int j = 0;      //para descobrir o index do outro vertice que tem essa aresta em caso de grafo nao_ordenado
+                
                 for (int i = 0; i < listaV.size(); i++) {
                     if (listaV.get(i).getId() == d) { //se o id do vertice for igual ao numero de entrada(d) da aresta(a)
                         h = i;      //h = indice do vertice onde a aresta sera removida
@@ -221,7 +194,7 @@ public class Main {
                         listaV.get(i).mostrarAdjacentes();
                         System.out.println("*");
                     }
-                    
+
                     int z = 0;        //Guardar o grau de saida
                     int p = 0;
 
@@ -229,7 +202,7 @@ public class Main {
                         System.out.println("Grau de SAIDA do Vertice " + x.getId() + " igual a : " + x.getGrauSaida());
                         for (int i = 0; i < listaV.size(); i++) {
                             z += listaV.get(i).VerificaSaida(x.getId());        //SOMA QUANTAS ARESTA CHEGA EM P (SAINDO DE TODOS OS VERTICES)
-                        }                                               
+                        }
                         listaV.get(p).setGrauEntrada(z);                //VERTICE P TEM O GRAU DE ENTRADA IGUAL A Z
                         p++;                                            //PRA VERIFICAR O PROXIMO VERTICE
                         System.out.println("Grau de ENTRADA do Vertice " + x.getId() + " é igual a : " + z);
@@ -338,5 +311,42 @@ public class Main {
 
             }
         } while (m != 0);
+    }
+
+  public static int percorreGrafo(int a, ArrayList<Vertice> listaV) {
+        int x = -1;      //para descobrir o index do vertice origem da aresta
+        for (int i = 0; i < listaV.size(); i++) {
+            if (listaV.get(i).getId() == a) {
+                x = i;
+            }
+        }
+        return x;
+    }
+
+    public static void printExisteVertice(int x, int index, boolean tipo) {
+        if (tipo) {
+            if (index == 1) {
+                if (x == -1) {
+                    System.out.println("Vertice de Origem não EXISTE ");
+                }
+            }
+            if (index == 2) {
+                if (x == -1) {
+                    System.out.println("Vertice de Destino não EXISTE ");
+                }
+            }
+        } else {
+            if (index == 1) {
+                if (x == -1) {
+                    System.out.println("Primeiro Vertice não EXISTE ");
+                }
+            }
+            if (index == 2) {
+                if (x == -1) {
+                    System.out.println("Segundo Vertice não EXISTE ");
+                }
+            }
+
+        }
     }
 }
