@@ -17,8 +17,8 @@ public class Main {
         //nao orientado ambos os vertices recebem a aresta
         int m; // variavel de controle do  menu
         int k;//variavel de controle do tipo de grafo
-        boolean tipo = true;
-        boolean verificacao = true;
+        Boolean tipo = null;
+       
         ArrayList<Aresta> listaA = new ArrayList();
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
@@ -30,11 +30,11 @@ public class Main {
             k = ler.nextInt();
             if (k == 1) {
                 tipo = true;                  //se verdadeiro grafo ORIENTADO
-                verificacao = false;          //true pra escolher o tipo e depois false pra nao entrar nesse sub menu mais
+                
             }
             if (k == 2) {
                 tipo = false;                 //se falso grafo NAO-ORIENTADO
-                verificacao = false;
+                
             }
             if (k == 3) {
                 Scanner input = new Scanner(System.in);
@@ -59,8 +59,8 @@ public class Main {
                 }
 
             }
-        } while (k != 1 && k != 2);
-        //fim da verificação}while()
+        } while (tipo == null); // Caso a opção seja a 3 ele permanece no while para escolher a continuação do menu orientado ou nao orientado
+       
         do {
             System.out.println("");
             System.out.println("----------------MENU----------------");
