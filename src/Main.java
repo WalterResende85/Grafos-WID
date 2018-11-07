@@ -13,6 +13,20 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        /*Orientação do que esta feito
+        > Criar Vertice ok
+        > Criar Aresta ok
+        > Remover vertice ok
+        > remover Aresta ok
+        > Gerar informações sobre o grafo ok
+        > imprimir grafo em txt ok
+        > implementar algoritimos finais (tentativas em andamento)
+        > implementação do grafo planar para o seminario (tentaiva em andamento)
+        */
+        
+        
+        
+        
         //orientado so verticeB verticeRemocao de origem recebe verticeOrigem aresta
         //nao orientado ambos os vertices recebem verticeOrigem aresta
         int menu; // variavel de controle do  menu
@@ -20,6 +34,8 @@ public class Main {
         ArrayList<Aresta> listaA = new ArrayList();
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
+        
+        
         do { //verificaçao do orientado de grafo, so acontece um vez na opção 1
             System.out.println("        Digite:");
             System.out.println("        1-Para grafo Orientado");
