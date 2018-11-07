@@ -22,6 +22,8 @@ public class Main {
         > imprimir grafo em txt ok
         > implementar algoritimos finais (tentativas em andamento)
         > implementação do grafo planar para o seminario (tentaiva em andamento)
+        
+        
         */
         
         
