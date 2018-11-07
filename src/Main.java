@@ -5,7 +5,7 @@ import edu.ifet.grafos.graphview.GraphView;
 import java.io.File;            //gravação
 import java.io.FileWriter;      //gravação
 import java.io.PrintWriter;     //gravação
-import java.io.IOException;     //leitura e gravação
+import java.io.IOException;     //leitura verticeRemocaoChegada gravação
 import java.io.BufferedReader;  //leitura
 import java.io.FileReader;      //leitura
 
@@ -13,30 +13,28 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        //orientado so o vertice de origem recebe a aresta
-        //nao orientado ambos os vertices recebem a aresta
-        int m; // variavel de controle do  menu
-        int k;//variavel de controle do tipo de grafo
-        Boolean tipo = null;
-       
+        //orientado so verticeB verticeRemocao de origem recebe verticeOrigem aresta
+        //nao orientado ambos os vertices recebem verticeOrigem aresta
+        int menu; // variavel de controle do  menu
+        Boolean orientado = null;       
         ArrayList<Aresta> listaA = new ArrayList();
         ArrayList<Vertice> listaV = new ArrayList();
         Scanner ler = new Scanner(System.in);
-        do { //verificaçao do tipo de grafo, so acontece um vez na opção 1
+        do { //verificaçao do orientado de grafo, so acontece um vez na opção 1
             System.out.println("        Digite:");
             System.out.println("        1-Para grafo Orientado");
             System.out.println("        2-Para grafo Não-orientado");
             System.out.println("        3-Para IMPRIMIR a partir de um txt");
-            k = ler.nextInt();
-            if (k == 1) {
-                tipo = true;                  //se verdadeiro grafo ORIENTADO
+            menu = ler.nextInt();
+            if (menu == 1) {
+                orientado = true;                  //se verdadeiro grafo ORIENTADO
                 
             }
-            if (k == 2) {
-                tipo = false;                 //se falso grafo NAO-ORIENTADO
+            if (menu == 2) {
+                orientado = false;                 //se falso grafo NAO-ORIENTADO
                 
             }
-            if (k == 3) {
+            if (menu == 3) {
                 Scanner input = new Scanner(System.in);
                 System.out.printf("Informe o nome de arquivo texto(EX: grafo.txt):\n");
                 String grafo = input.nextLine();
@@ -51,7 +49,6 @@ public class Main {
                     File grafoLeitura = new File("grafoLeitura.png");
                     pl.writeGraphToFile(grafoLeitura);
                     System.out.println("grafoLeitura.png FOI GRAVADO");
-
                     arq.close();
                 } catch (IOException e) {
                     System.err.printf("Erro na abertura do arquivo: %s.\n",
@@ -59,7 +56,7 @@ public class Main {
                 }
 
             }
-        } while (tipo == null); // Caso a opção seja a 3 ele permanece no while para escolher a continuação do menu orientado ou nao orientado
+        }while (orientado == null); // Caso verticeOrigem opção seja verticeOrigem 3 ele permanece no while para escolher verticeOrigem continuação do menu orientado ou nao orientado
        
         do {
             System.out.println("");
@@ -72,148 +69,145 @@ public class Main {
             System.out.println("        6- Para criar a imagem e o arquivo txt");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
-            m = ler.nextInt();
-            if (m == 1) {
+            menu = ler.nextInt();
+            if (menu == 1) {
                 System.out.println("");
-                listaV.add(new Vertice());  //Cria o vertice
+                listaV.add(new Vertice());  //Cria verticeB verticeRemocao
 
             }
-            if (m == 2) {
-                if (tipo) {
+            if (menu == 2) {
+                if (orientado) {
                     System.out.println("");
                     System.out.println("Informe vertice origem");
-                    int a = ler.nextInt();
-                    int x = percorreGrafo(a, listaV);                    //metodo pra percorrer o grafo e reduzir/simplificar o codigo
+                    int verticeOrigem = ler.nextInt();
+                    int idVerticeOrigem = percorreGrafo(verticeOrigem, listaV);                    //metodo pra percorrer verticeB grafo verticeRemocaoChegada reduzir/simplificar verticeB codigo
                     System.out.println("Informe vertice destino");
-                    int b = ler.nextInt();
-                    int z = percorreGrafo(b, listaV);
-                    printExisteVertice(x, 1, tipo);
-                    printExisteVertice(z, 2, tipo);
-                    if (x != -1 && z != -1) {
+                    int verticeDestino = ler.nextInt();
+                    int idVerticeDestino = percorreGrafo(verticeDestino, listaV);
+                    printExisteVertice(idVerticeOrigem, 1, orientado);
+                    printExisteVertice(idVerticeDestino, 2, orientado);
+                    if (idVerticeOrigem != -1 && idVerticeDestino != -1) {
                         System.out.println("Informe o peso da aresta");
-                        int c = ler.nextInt();
-                        listaV.get(x).insereAdjacente(new Aresta(a, b, c));
+                        int pesoAresta = ler.nextInt();
+                        listaV.get(idVerticeOrigem).insereAdjacente(new Aresta(verticeOrigem, verticeDestino, pesoAresta));
                     } else {
                         System.out.println("ARESTA NÂO FOI CRIADA!!!!!");
                     }
                 }
-                if (!tipo) {     //grafo não orientado
+                if (!orientado) {     //grafo não orientado
                     System.out.println("");
                     System.out.println("Informe o primeiro vertice da aresta");
-                    int a = ler.nextInt();
+                    int vertice1 = ler.nextInt();
                     System.out.println("Informe o segundo vertice da aresta");
-                    int b = ler.nextInt();
-                    int x = percorreGrafo(a, listaV);     //para descobrir o index do primeiro vertice da aresta
-                    int z = percorreGrafo(b, listaV);     //para descobrir o index do segundo vertice da aresta
-                    printExisteVertice(x, 1, tipo);
-                    printExisteVertice(z, 2, tipo);
-                    if (x != -1 && z != -1) {
+                    int vertice2 = ler.nextInt();
+                    int idVertice1 = percorreGrafo(vertice1, listaV);     //para descobrir verticeB index do primeiro verticeRemocao da aresta
+                    int idVertice2 = percorreGrafo(vertice2, listaV);     //para descobrir verticeB index do segundo verticeRemocao da aresta
+                    printExisteVertice(idVertice1, 1, orientado);
+                    printExisteVertice(idVertice2, 2, orientado);
+                    if (idVertice1 != -1 && idVertice2 != -1) {
                         System.out.println("Informe o peso da aresta");
-                        int c = ler.nextInt();
-                        listaA.add(new Aresta(a, b, c));
-                        listaV.get(x).insereAdjacente(listaA.get(listaA.size() - 1));//pegar a ultima aresta adicionada pra poder colocar nos VERTICES
-                        listaV.get(z).insereAdjacente(listaA.get(listaA.size() - 1));
+                        int pesoAresta = ler.nextInt();
+                        listaA.add(new Aresta(vertice1, vertice2, pesoAresta));
+                        listaV.get(idVertice1).insereAdjacente(listaA.get(listaA.size() - 1));//pegar verticeOrigem ultima aresta adicionada pra poder colocar nos VERTICES
+                        listaV.get(idVertice2).insereAdjacente(listaA.get(listaA.size() - 1));
                     } else {
                         System.out.println("ARESTA NÂO FOI CRIADA!!!!!");
                     }
                 }
             }
 
-            if (m == 3) {
+            if (menu == 3) {
                 System.out.println("Informe o id do vertice a ser REMOVIDO: ");
-                int a = ler.nextInt();
+                int verticeRemocao = ler.nextInt();
                 for (int i = 0; i < listaV.size(); i++) {               //REMOVE AS ARESTAS LIGADAS A ESSE VERTICE
-                    if (tipo) {
-                        listaV.get(i).removeArestaDosVertices(a);
+                    if (orientado) {
+                        listaV.get(i).removeArestaDosVertices(verticeRemocao);
                     }
-                    if (!tipo) {
-                        listaV.get(i).removeArestaDosVerticesNaoOrientado(a);
+                    if (!orientado) {
+                        listaV.get(i).removeArestaDosVerticesNaoOrientado(verticeRemocao);
                     }
                 }
-                int x = percorreGrafo(a, listaV);      //para descobrir o index do vertice que sera removido
-                if (x == -1) {
+                int idVerticeRemocao = percorreGrafo(verticeRemocao, listaV);      //para descobrir verticeB index do verticeRemocao que sera removido
+                if (idVerticeRemocao == -1) {
                     System.out.println("Vertice informado não existe");
                 } else {
-                    listaV.remove(x);
-                    System.out.println("Vertice " + a + " REMOVIDO");
+                    listaV.remove(idVerticeRemocao);
+                    System.out.println("Vertice " + verticeRemocao + " REMOVIDO");
                 }
             }
 
-            if (m == 4) {
+            if (menu == 4) {
 
                 System.out.println("Informe o nome da aresta a ser REMOVIDO(EX: 1@1@2): ");
-                String a = ler.next();
+                String nomeAresta = ler.next();
 
-                int f = a.indexOf("@") + 1;        //pegar o numero entre as arrobas ...
-                int g = a.lastIndexOf("@");    //... pra definir em qual vertice essa aresta esta
-                String index = a.substring(f, g);    // coloca esse numero em uma nova String
-                //Transforma esse numero tipo String em um int
+                int f = nomeAresta.indexOf("@") + 1;        //pegar verticeB numero entre as arrobas ...
+                int g = nomeAresta.lastIndexOf("@");    //... pra definir em qual verticeRemocao essa aresta esta
+                String index = nomeAresta.substring(f, g);    // coloca esse numero em uma nova String
+                //Transforma esse numero orientado String em um int
 
-                int d = Integer.parseInt(index);    //d == vertice de entrada da aresta a ser removida
-                int e = 0;                          //e== vertice de saida da aresta a ser removida
+                int verticeRemocaoSaida = Integer.parseInt(index);    //d == verticeRemocao de entrada da aresta verticeOrigem ser removida
+                int verticeRemocaoChegada = 0;                          //e== verticeRemocao de saida da aresta verticeOrigem ser removida
 
-                if (!tipo) {  //se o grafo for não-direcional é preciso pegar o ultimo numero do id tambem
+                if (!orientado) {  //se verticeB grafo for não-direcional é preciso pegar verticeB ultimo numero do id tambem
                     g++;
-                    String index2 = a.substring(g);
-                    e = Integer.parseInt(index2);   // e = utimo numero do id
+                    String index2 = nomeAresta.substring(g);
+                    verticeRemocaoChegada = Integer.parseInt(index2);   // verticeRemocaoChegada = utimo numero do id
                 }
 
-                int h = percorreGrafo(d, listaV);      //para descobrir o index do vertice de numero que foi descoberto em cima(d)
-                int j = 0;
-                if (!tipo) {
-                    j = percorreGrafo(e, listaV);      //para descobrir o index do outro vertice que tem essa aresta em caso de grafo nao_ordenado
+                int idVerticeRemocaoSaida = percorreGrafo(verticeRemocaoSaida, listaV);      //para descobrir verticeB index do verticeRemocao de numero que foi descoberto em cima(verticeRemocaoSaida)
+                int idVerticeRemocaoChegada = 0;
+                if (!orientado) {
+                    idVerticeRemocaoChegada = percorreGrafo(verticeRemocaoChegada, listaV);      //para descobrir verticeB index do outro verticeRemocao que tem essa aresta em caso de grafo nao_ordenado
                 }
 
-                if (h != -1 && j != -1) {
-                    listaV.get(h).removeAresta(a); //remove a aresta do vertice de entrada em caso de ordenado
-                    //  ou remove a aresta do primeiro vertice em caso de não-ordenado                    
+                if (idVerticeRemocaoSaida != -1 && idVerticeRemocaoChegada != -1) {
+                    listaV.get(idVerticeRemocaoSaida).removeAresta(nomeAresta); //remove verticeOrigem aresta do verticeRemocao de entrada em caso de ordenado
+                    //  ou remove verticeOrigem aresta do primeiro verticeRemocao em caso de não-ordenado                    
                 }
-                if (h != -1 && j != -1 && !tipo) {
-                    listaV.get(j).removeAresta(a);         //remove a aresta do segundo vertice em caso de não-orientado
+                if (idVerticeRemocaoSaida != -1 && idVerticeRemocaoChegada != -1 && !orientado) {
+                    listaV.get(idVerticeRemocaoChegada).removeAresta(nomeAresta);         //remove verticeOrigem aresta do segundo verticeRemocao em caso de não-orientado
                 }
-
-////////FALTA CONCERTAR(MELHORAR) O CODIGO DO 5 EM DIANTE/////////////
                 
             }
-            if (m == 5) {
-                boolean regular = true;
-                boolean completo = true;
+            if (menu == 5) {
+                boolean regular = true;         
+                boolean completo = true;        //Todos o vertices tem ligaçao direta entre si
 
                 int grauEntradaPrimeiro = 0;
                 int grauSaidaPrimeiro = 0;
                 int numAdjacenciasPrimeiro = 0;
 
-                if (tipo) {
-
+                if (orientado) {
                     for (int i = 0; i < listaV.size(); i++) { // IMPRIME AS LIGACOES (NAO VERIFICA NADA)
                         System.out.print("Vertice " + listaV.get(i).getId() + " aponta para: ");
                         listaV.get(i).mostrarAdjacentes();
                         System.out.println("*");
                     }
-
-                    int z = 0;        //Guardar o grau de saida
+                    int grauEntradaAuxiliar = 0;        //Guardar verticeB grau de saida
                     int p = 0;
 
-                    for (Vertice x : listaV) {      //mostra grau de entrada e saida do vertice
-                        System.out.println("Grau de SAIDA do Vertice " + x.getId() + " igual a : " + x.getGrauSaida());
+                    for (Vertice vertice : listaV) {      //mostra grau de entrada do verticeRemocaoChegada e grau de saida do verticeRemocao
+                        System.out.println("Grau de SAIDA do Vertice " + vertice.getId() + " igual a : " + vertice.getGrauSaida());
                         for (int i = 0; i < listaV.size(); i++) {
-                            z += listaV.get(i).VerificaSaida(x.getId());        //SOMA QUANTAS ARESTA CHEGA EM P (SAINDO DE TODOS OS VERTICES)
+                            grauEntradaAuxiliar += listaV.get(i).VerificaSaida(vertice.getId());        //SOMA QUANTAS ARESTA CHEGA EM P (SAINDO DE TODOS OS VERTICES)
+                                                                                                        //vertice.VerificaSaida(x) retorna n de ligacoes que verice tem com x
                         }
-                        listaV.get(p).setGrauEntrada(z);                //VERTICE P TEM O GRAU DE ENTRADA IGUAL A Z
-                        p++;                                            //PRA VERIFICAR O PROXIMO VERTICE
-                        System.out.println("Grau de ENTRADA do Vertice " + x.getId() + " é igual a : " + z);
-                        z = 0;
+                        listaV.get(p).setGrauEntrada(grauEntradaAuxiliar);                //VERTICE P TEM O GRAU DE ENTRADA IGUAL A grauEntradaAuxiliar
+                        p++;                                                              //PRA VERIFICAR O PROXIMO VERTICE
+                        System.out.println("Grau de ENTRADA do Vertice " + vertice.getId() + " é igual a : " + grauEntradaAuxiliar);
+                        grauEntradaAuxiliar = 0;
                     }
 
-                    for (Vertice x : listaV) {
-                        for (Vertice o : listaV) {
-                            if (!x.ligacao(o.getId())) { //verifica se o x liga com o o
-                                if (!o.ligacao(x.getId())) {  //se x nao liga com o verifica o contrario, pq ignora o sentido (a->b == b->a)
+                    for (Vertice verticeA : listaV) {
+                        for (Vertice verticeB : listaV) {
+                            if (!verticeA.ligacao(verticeB.getId())) {      //verifica se o idVerticeOrigem liga com o verticeB
+                                if (!verticeB.ligacao(verticeA.getId())) {  //se idVerticeOrigem nao liga com verticeB verifica o contrario, pq ignora 0 sentido (verticeOrigem->verticeDestino == verticeDestino->verticeOrigem)
                                     completo = false;
                                 }
                             }
                         }
-                        x.setNumAdjacencia();               //set num de adjacencias de todos os vertices(desconsidera sentido) entrada + saida
+                        verticeA.setNumAdjacencia();               //set num de adjacencias de todos os vertices(desconsidera sentido) entrada + saida
                     }
 
                     grauEntradaPrimeiro = listaV.get(0).getGrauEntrada();       //set para comparacao de grafo regular
@@ -230,9 +224,8 @@ public class Main {
                     }
 
                 }
-                int grauPrimeiro = listaV.get(0).mostraGrau();
-                if (!tipo) {
-
+                int grauPrimeiro = listaV.get(0).mostraGrau();              //mostraGrau retorna o grau do vertice(grau = entrada + saida)
+                if (!orientado) {
                     for (int i = 0, j = 0; i < listaV.size(); i++) {        //IMPRIME AS CONEXOES (NAO VERIFICA NADA)
                         System.out.print("Vertice " + listaV.get(i).getId() + " conecta em: ");
                         listaV.get(i).mostrarConexao();
@@ -251,8 +244,8 @@ public class Main {
                         }
                     }
                 }
-                int ordem = listaV.size();      //ordem do grafo igual ao numero de Vertices existentes
-                System.out.println("Ordem do grafo: " + ordem);
+                    
+                System.out.println("Ordem do grafo: " + listaV.size());  //ordem do grafo igual ao numero de Vertices existentes
                 if (regular) {
                     System.out.println("GRAFO " + grauPrimeiro + "-REGULAR");
                 } else {
@@ -267,20 +260,20 @@ public class Main {
 
             }
 
-            if (m == 6) {
+            if (menu == 6) {
                 String g = "";
-                if (tipo) {
+                if (orientado) {
                     g = "digraph graphname {";
-                    for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada e saida do vertice
+                    for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada verticeRemocaoChegada saida do verticeRemocao
                         String a = listaV.get(i).criaStringOrientado();
                         g = g + a;
                     }
                     g = g + "}";
                 }
 
-                if (!tipo) {
+                if (!orientado) {
                     g = "graph graphname {";
-                    for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada e saida do vertice
+                    for (int i = 0; i < listaV.size(); i++) {      //mostra grau de entrada verticeRemocaoChegada saida do verticeRemocao
                         String a = listaV.get(i).criaStringNaoOrientada();
                         g = g + a;
                     }
@@ -293,24 +286,24 @@ public class Main {
                 arq.close();
                 System.out.println("Arquivo grafo.txt gravado");
 
-                // Criando um objeto da classe responsável por gerar a imagem do grafo
+                // Criando um objeto da classe responsável por gerar verticeOrigem imagem do grafo
                 GraphView gv = new GraphView();
-                //Lendo a String 
+                //Lendo verticeOrigem String 
                 gv.readString(g);
-                //Imprimindo a grafo em texto
+                //Imprimindo verticeOrigem grafo em texto
 
                 System.out.println(gv.getDotSource());
-                //Gerando uma imagem com o nome out.png 
+                //Gerando uma imagem com verticeB nome out.png 
                 File grafo = new File("grafo.png");
                 gv.writeGraphToFile(grafo);
                 System.out.println("grafo.png FOI GRAVADO");
 
             }
-        } while (m != 0);
+        } while (menu != 0);
     }
 
     public static int percorreGrafo(int a, ArrayList<Vertice> listaV) {
-        int x = -1;      //para descobrir o index do vertice origem da aresta
+        int x = -1;      //para descobrir verticeB index do verticeRemocao origem da aresta
         for (int i = 0; i < listaV.size(); i++) {
             if (listaV.get(i).getId() == a) {
                 x = i;
