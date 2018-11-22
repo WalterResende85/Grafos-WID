@@ -161,20 +161,18 @@ public class Vertice {
         return lista;
     }
 
-    public String criaStringNaoOrientada() {
+   public String criaStringNaoOrientada() {
         String lista = "";
-        if (listaAdjacente.isEmpty()) {
-            lista = this.id + ";";
-        } else {
-            for (int i = 0; i < listaAdjacente.size(); i++) {
-                if (listaAdjacente.get(i).getOrigem() == this.id) {
-                    lista = lista + "" + this.id;
-                    lista = lista + " -- " + listaAdjacente.get(i).getDestino();
-                    lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=red]";
-                    lista = lista + ";";
-                }
+        for (int i = 0; i < listaAdjacente.size(); i++) {
+            if (listaAdjacente.get(i).getOrigem() == this.id) {
+                lista = lista + "" + this.id;
+                lista = lista + " -- " + listaAdjacente.get(i).getDestino();
+                lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=red]";
+                lista = lista + ";";
             }
         }
+        System.out.println("Lista "+this.id+" = "+lista);
         return lista;
     }
+
 }
