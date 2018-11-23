@@ -22,6 +22,24 @@ public class Aresta {
         }
         return false;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Aresta) {
+            Vertice vRef = (Vertice) obj;
+            if (this.getNome().equals(vRef.getNome())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean equals(String a) {
+        if (a instanceof String) {
+            if (this.getNome().equalsIgnoreCase(a)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public int getDestino() {
         return destino;
