@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Vertice {
 
@@ -9,6 +10,7 @@ public class Vertice {
     private int grauEntrada;
     private int grauSaida;
     private int numAdjacencia;
+    private String nome;
 
     public Vertice() {
         id = this.w;
@@ -51,31 +53,7 @@ public class Vertice {
         }
     }
 
-    @Override
-    public String toString() {
-        return "" + this.id;
-    }
-
-    public ArrayList<Aresta> getListaAdjacente() {
-        return listaAdjacente;
-    }
-
-    public void setListaAdjacente(ArrayList<Aresta> listaAdjacente) {
-        this.listaAdjacente = listaAdjacente;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getGrauSaida() { //orientado (o numero de aresta representa o numero de saidas desse vertice)
-        return this.listaAdjacente.size();
-    }
-
+    
     public int VerificaSaida(int x) {//orientado
         int z = 0;
         for (Aresta i : listaAdjacente) {
@@ -130,22 +108,6 @@ public class Vertice {
         return false;
     }
 
-    public int getGrauEntrada() {
-        return grauEntrada;
-    }
-
-    public void setGrauEntrada(int grauEntrada) {
-        this.grauEntrada = grauEntrada;
-    }
-
-    public void setNumAdjacencia() {
-        this.numAdjacencia = this.grauEntrada + this.getGrauSaida();
-    }
-
-    public int getNumAdjacencia() {
-        return numAdjacencia;
-    }
-
     public String criaStringOrientado() {
         String lista = "";
         if (listaAdjacente.isEmpty()) {
@@ -174,5 +136,73 @@ public class Vertice {
         System.out.println("Lista "+this.id+" = "+lista);
         return lista;
     }
+   @Override
+    public boolean equals(Object o) {
+        if (o instanceof Vertice) {
+            if (this.getNome() == ((Vertice) o).getNome()) {
+                return true;
+            }
+        }
+        if (o instanceof String) {
+            if (this.getNome().equalsIgnoreCase((String) o)) {
+                return true;
+            }
+        }
+        return false;
 
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.nome);
+        return hash;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
+    public int getGrauEntrada() {
+        return grauEntrada;
+    }
+
+    public void setGrauEntrada(int grauEntrada) {
+        this.grauEntrada = grauEntrada;
+    }
+
+    public void setNumAdjacencia() {
+        this.numAdjacencia = this.grauEntrada + this.getGrauSaida();
+    }
+
+    public int getNumAdjacencia() {
+        return numAdjacencia;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGrauSaida() { //orientado (o numero de aresta representa o numero de saidas desse vertice)
+        return this.listaAdjacente.size();
+    }
+     public ArrayList<Aresta> getListaAdjacente() {
+        return listaAdjacente;
+    }
+
+    public void setListaAdjacente(ArrayList<Aresta> listaAdjacente) {
+        this.listaAdjacente = listaAdjacente;
+    }
+    @Override
+    public String toString() {
+        return "" + this.id;
+    }
 }
