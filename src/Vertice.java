@@ -1,9 +1,12 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class Vertice {
-
+public class Vertice implements Comparable<Vertice>{
+    private ArrayList<Aresta> listaArestaSai = new ArrayList();
+    private ArrayList<Aresta> listaArestaChega = new ArrayList();
+        
     private ArrayList<Aresta> listaAdjacente = new ArrayList();
     private int id;
     private static int w = 0;
@@ -11,6 +14,15 @@ public class Vertice {
     private int grauSaida;
     private int numAdjacencia;
     private String nome;
+    
+    
+     //tentativa de implementar o Dijkstra
+    private int distancia;
+    private boolean visitado = false;
+    private Vertice pai;
+    private List<Vertice> vizinhos = new ArrayList<Vertice>();
+    private int MenorCaminho;
+    // tentativa de implementar o Dijkstra
 
     public Vertice() {
         id = this.w;
@@ -157,6 +169,67 @@ public class Vertice {
         int hash = 7;
         hash = 61 * hash + Objects.hashCode(this.nome);
         return hash;
+    }
+    @Override
+    public int compareTo(Vertice o) {
+        if (this.getDistancia() < o.getDistancia()) {
+            return -1;
+        } else if (this.getDistancia() == o.getDistancia()) {
+            return 0;
+        }
+        return 1;
+    }
+
+    public ArrayList<Aresta> getListaArestaChega() {
+        return listaArestaChega;
+    }
+
+    public void setListaArestaChega(ArrayList<Aresta> listaArestaChega) {
+        this.listaArestaChega = listaArestaChega;
+    }
+    
+
+//getter e setter==========================================
+    
+    public int getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(int distancia) {
+        this.distancia = distancia;
+    }
+
+    public boolean isVisitado() {
+        return visitado;
+    }
+
+    public void setVisitado(boolean visitado) {
+        this.visitado = visitado;
+    }
+
+    public Vertice getPai() {
+        return pai;
+    }
+
+    public void setPai(Vertice pai) {
+        this.pai = pai;
+    }
+
+    public List<Vertice> getVizinhos() {
+        return vizinhos;
+    }
+
+    public void setVizinhos(List<Vertice> vizinhos) {
+        this.vizinhos = vizinhos;
+    }
+
+    public int getMenorCaminho() {
+        return MenorCaminho;
+    }
+
+
+    public void setMenorCaminho(int MenorCaminho) {    
+        this.MenorCaminho = MenorCaminho;
     }
 
     public String getNome() {
