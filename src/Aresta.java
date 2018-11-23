@@ -1,27 +1,37 @@
-
 public class Aresta {
-
-    private int origem;
-    private int destino;
-    private String nome;    //numero da aresta@origem@destino
-    private static int w = 1;
+    private String nome;
+    private Vertice origem;
+    private Vertice destino;
     private int peso;
-
-    public Aresta(int origem, int destino, int peso) {
+    
+    public Aresta(String nome) {
+        this.nome = nome;
         this.origem = origem;
         this.destino = destino;
         this.peso = peso;
-        nome = w + "@" + origem + "@" + destino + "";
-        w++;
-        System.out.println("Aresta " + nome + " criada\n");
     }
 
-    public boolean conectaAoVertice(int x) {
-        if (this.destino == x || this.origem == x) {
-            return true;
-        }
-        return false;
+    Aresta(Vertice origem, Vertice destino, int peso, String nome) {
+        this.nome = nome;
+        this.origem = origem;
+        this.destino = destino;
+        this.peso = peso;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return this.nome+"("+this.peso+")";
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Aresta) {
@@ -41,40 +51,23 @@ public class Aresta {
         return false;
     }
 
-    public int getDestino() {
+    public Vertice getOrigem() {
+        return origem;
+    }
+    
+    public Vertice getA() {
+    return origem;
+    }
+    
+    public Vertice getDestino() {
         return destino;
     }
 
-    public void setDestino(int destino) {
-        this.destino = destino;
+    public Vertice getB() {
+        return destino;
     }
-
-    public int getOrigem() {
-        return origem;
-    }
-
-    public void setOrigem(int origem) {
-        this.origem = origem;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
+    
     public int getPeso() {
         return peso;
-    }
-
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
-
-    @Override
-    public String toString() {
-        return "" + nome;
     }
 }
