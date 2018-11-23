@@ -3,152 +3,119 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Vertice implements Comparable<Vertice>{
+public class Vertice implements Comparable<Vertice> {
+
     private ArrayList<Aresta> listaArestaSai = new ArrayList();
     private ArrayList<Aresta> listaArestaChega = new ArrayList();
-        
-    private ArrayList<Aresta> listaAdjacente = new ArrayList();
-    private int id;
-    private static int w = 0;
-    private int grauEntrada;
-    private int grauSaida;
-    private int numAdjacencia;
     private String nome;
-    
-    
-     //tentativa de implementar o Dijkstra
+    private int grau = 0;
+    //Dijkstra
     private int distancia;
     private boolean visitado = false;
     private Vertice pai;
     private List<Vertice> vizinhos = new ArrayList<Vertice>();
     private int MenorCaminho;
-    // tentativa de implementar o Dijkstra
+    //Dijkstra
+
+    public Vertice(String nome) {
+        this.nome = nome;
+    }
 
     public Vertice() {
-        id = this.w;
-        w++;
-        System.out.println("Vertice " + id + " criado\n");
     }
 
-    boolean insereAdjacente(Aresta a) {
-        listaAdjacente.add(a);
-        return true;
+    public void setVerticeSemAresta(){
+        this.listaArestaSai.clear();
     }
-
-    void mostrarAdjacentes() {
-        for (Aresta x : listaAdjacente) {
-            System.out.print("" + x.getDestino() + "-->");
-        }
-    }
-
-    public void removeArestaDosVertices(int a) {
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getDestino() == a) {
-                listaAdjacente.remove(i);
-            }
-        }
-    }
-
-    public void removeArestaDosVerticesNaoOrientado(int a) {
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getDestino() == a || listaAdjacente.get(i).getOrigem() == a) {
-                listaAdjacente.remove(i);
-            }
-        }
-    }
-
-    public void removeAresta(String a) {
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getNome().equalsIgnoreCase(a)) {
-                listaAdjacente.remove(i);
-            }
-        }
-    }
-
     
-    public int VerificaSaida(int x) {//orientado
-        int z = 0;
-        for (Aresta i : listaAdjacente) {
-            if (i.getDestino() == x) {
-                z++;
+    public ArrayList<Aresta> getListaArestaSai() {
+        return listaArestaSai;
+    }
+
+    public void setListaArestaSai(ArrayList<Aresta> listaArestaSai) {
+        this.listaArestaSai = listaArestaSai;
+    }
+
+    public void addAresta(Aresta a) {
+        this.listaArestaSai.add(a);
+    }
+
+    public void addArestaChega(Aresta a){
+        this.listaArestaChega.add(a);
+    }
+    
+    public void removeAresta(Aresta v) {
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+            this.listaArestaSai.get(i).equals(v);
+        }
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getGrau() {
+        int x = 0;
+        x = x + this.listaArestaSai.size();
+        return x;
+    }
+
+    public int menorCaminhoParaX(Vertice x){
+        int y = 0;
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+           if(listaArestaSai.get(i).getDestino().equals(x)){
+               y = listaArestaSai.get(i).getPeso();
+           }
+        }
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+           if(listaArestaSai.get(i).getDestino().equals(x)){
+               if (listaArestaSai.get(i).getPeso() < y) {
+                   y = listaArestaSai.get(i).getPeso();
+               }
+           }
+        }
+        return y;
+    }
+    
+    public int apontaParaOutroVertice(String vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
+        int x = 0;
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+            if (this.listaArestaSai.get(i).getDestino().getNome().equals(vertice)) {
+                x++;
             }
         }
-        return z;
+        return x;
     }
 
-    public int mostraGrau() { //para grafo não orientado
-        return this.listaAdjacente.size();
-    }
-
-    public void mostrarConexao() {
-        /*
-        for (Aresta x : listaAdjacente) {
-            System.out.print("" + x.getDestino() + "-->");
-        }
-         */
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getOrigem() == this.id) {
-                System.out.print(listaAdjacente.get(i).getDestino() + "-->");
-            } else {
-                System.out.print(listaAdjacente.get(i).getOrigem() + "-->");
+    public int apontaParaOutroVertice(Vertice vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
+        int x = 0;
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+            if (this.listaArestaSai.get(i).getDestino().getNome().equals(vertice)) {
+                x++;
             }
         }
+        return x;
     }
 
-    public boolean ligaEmTodos(Vertice x) { //nao-orientado
-        boolean completo = false;
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getDestino() == x.id || listaAdjacente.get(i).getOrigem() == x.id) {
-                completo = true;
-            }
+    public void apontaPara() {
+        System.out.print("Vertice " + this.getNome() + " aponta para: ");
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+            System.out.print(" -> " + this.listaArestaSai.get(i).getDestino());
         }
+        if (!this.listaArestaSai.isEmpty()) {
+            System.out.print(" ->*");
+        } else if (true) {
+            System.out.print("NINGUEM");
+        }
+        System.out.println("");
 
-        return completo;
     }
 
-    public boolean ligacao(int x) {
-        if (x == this.id) {
-            //se verdadeiro o id passado pertence a esse vertice
-            return true;
-        }
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getDestino() == x || listaAdjacente.get(i).getOrigem() == x) {
-                //se verdadeiro o id do vertice passado conecta chegando ou saindo com esse
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String criaStringOrientado() {
-        String lista = "";
-        if (listaAdjacente.isEmpty()) {
-            lista = this.id + ";";
-        } else {
-            for (int i = 0; i < listaAdjacente.size(); i++) {
-                lista = lista + "" + this.id;
-                lista = lista + " -> " + listaAdjacente.get(i).getDestino();
-                lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=darkgreen]";
-                lista = lista + ";";
-            }
-        }
-        return lista;
-    }
-
-   public String criaStringNaoOrientada() {
-        String lista = "";
-        for (int i = 0; i < listaAdjacente.size(); i++) {
-            if (listaAdjacente.get(i).getOrigem() == this.id) {
-                lista = lista + "" + this.id;
-                lista = lista + " -- " + listaAdjacente.get(i).getDestino();
-                lista = lista + "[label=\"" + listaAdjacente.get(i).getPeso() + "\", fontcolor=red]";
-                lista = lista + ";";
-            }
-        }
-        System.out.println("Lista "+this.id+" = "+lista);
-        return lista;
-    }
-   @Override
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Vertice) {
             if (this.getNome() == ((Vertice) o).getNome()) {
@@ -170,6 +137,80 @@ public class Vertice implements Comparable<Vertice>{
         hash = 61 * hash + Objects.hashCode(this.nome);
         return hash;
     }
+
+    public String criaStringOrientado() {
+        String lista = "";
+        if (this.listaArestaSai.isEmpty()) {
+            lista = this.nome + ";";
+        } else {
+            for (int i = 0; i < listaArestaSai.size(); i++) {
+                lista = lista + " " + this.nome;
+                lista = lista + " -> " + listaArestaSai.get(i).getDestino().getNome();
+                lista = lista + " [label=\"" + listaArestaSai.get(i).getNome() + " = " + listaArestaSai.get(i).getPeso() + "\", fontcolor=darkgreen] ";
+                lista = lista + " ;";
+            }
+        }
+        return lista;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
+    //Dijkstra
+    public void setDistancia(int distancia) {
+
+        this.distancia = distancia;
+    }
+
+    public int getDistancia() {
+
+        return this.distancia;
+    }
+
+    public boolean verificarVisita() {
+        return visitado;
+    }
+
+    public void visitar() {
+        this.visitado = true;
+    }
+
+    public void setVisitado(boolean visitado) {
+        this.visitado = visitado;
+    }
+
+    public void setPai(Vertice pai) {
+
+        this.pai = pai;
+    }
+
+    public Vertice getPai() {
+
+        return this.pai;
+    }
+
+    public void setVizinhos(List<Vertice> vizinhos) {
+
+        this.vizinhos.addAll(vizinhos);
+
+    }
+
+    public List<Vertice> getVizinhos() {
+
+        return this.vizinhos;
+    }
+
+    public int getMenorCaminho() {
+        return MenorCaminho;
+    }
+
+    public void setMenorCaminho(int MenorCaminho) {
+        this.MenorCaminho = MenorCaminho;
+    }
+    
+    //Dijkstra
     @Override
     public int compareTo(Vertice o) {
         if (this.getDistancia() < o.getDistancia()) {
@@ -186,96 +227,5 @@ public class Vertice implements Comparable<Vertice>{
 
     public void setListaArestaChega(ArrayList<Aresta> listaArestaChega) {
         this.listaArestaChega = listaArestaChega;
-    }
-    
-
-//getter e setter==========================================
-    
-    public int getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(int distancia) {
-        this.distancia = distancia;
-    }
-
-    public boolean isVisitado() {
-        return visitado;
-    }
-
-    public void setVisitado(boolean visitado) {
-        this.visitado = visitado;
-    }
-
-    public Vertice getPai() {
-        return pai;
-    }
-
-    public void setPai(Vertice pai) {
-        this.pai = pai;
-    }
-
-    public List<Vertice> getVizinhos() {
-        return vizinhos;
-    }
-
-    public void setVizinhos(List<Vertice> vizinhos) {
-        this.vizinhos = vizinhos;
-    }
-
-    public int getMenorCaminho() {
-        return MenorCaminho;
-    }
-
-
-    public void setMenorCaminho(int MenorCaminho) {    
-        this.MenorCaminho = MenorCaminho;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
-    
-    public int getGrauEntrada() {
-        return grauEntrada;
-    }
-
-    public void setGrauEntrada(int grauEntrada) {
-        this.grauEntrada = grauEntrada;
-    }
-
-    public void setNumAdjacencia() {
-        this.numAdjacencia = this.grauEntrada + this.getGrauSaida();
-    }
-
-    public int getNumAdjacencia() {
-        return numAdjacencia;
-    }
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getGrauSaida() { //orientado (o numero de aresta representa o numero de saidas desse vertice)
-        return this.listaAdjacente.size();
-    }
-     public ArrayList<Aresta> getListaAdjacente() {
-        return listaAdjacente;
-    }
-
-    public void setListaAdjacente(ArrayList<Aresta> listaAdjacente) {
-        this.listaAdjacente = listaAdjacente;
-    }
-    @Override
-    public String toString() {
-        return "" + this.id;
     }
 }
