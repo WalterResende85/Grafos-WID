@@ -35,7 +35,7 @@ public class Aresta {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Aresta) {
-            Vertice vRef = (Vertice) obj;
+            Aresta vRef = (Aresta) obj;
             if (this.getNome().equals(vRef.getNome())) {
                 return true;
             }

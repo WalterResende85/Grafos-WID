@@ -100,4 +100,12 @@ public class Grafo {
         this.ListaArestaChega = ListaArestaChega;
     }
     
+    public boolean contains(Vertice v){
+        for (int i = 0; i < this.grafo.size();i++) {
+            if (grafo.get(i).equals(v)) {
+                return true;
+            }
+        }
+        return false;
+    }    
 }

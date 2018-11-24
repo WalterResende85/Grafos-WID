@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,6 +8,7 @@ public class Vertice implements Comparable<Vertice> {
 
     private ArrayList<Aresta> listaArestaSai = new ArrayList();
     private ArrayList<Aresta> listaArestaChega = new ArrayList();
+    public ArrayList<Aresta> arestaPrim = new ArrayList<>();               //Usar no prim
     private String nome;
     private int grau = 0;
     //Dijkstra
@@ -45,8 +47,15 @@ public class Vertice implements Comparable<Vertice> {
     }
     
     public void removeAresta(Aresta v) {
+        for (int i = 0; i < this.listaArestaChega.size(); i++) {
+            if(this.listaArestaChega.get(i).equals(v)){
+                listaArestaChega.remove(i);
+            }
+        }
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
-            this.listaArestaSai.get(i).equals(v);
+            if(this.listaArestaSai.get(i).equals(v)){
+                listaArestaSai.remove(i);
+            }
         }
     }
 
@@ -227,5 +236,16 @@ public class Vertice implements Comparable<Vertice> {
 
     public void setListaArestaChega(ArrayList<Aresta> listaArestaChega) {
         this.listaArestaChega = listaArestaChega;
+    }
+    
+    public void arestaPrim(){
+        for (int i = 0; i < this.listaArestaChega.size(); i++) {
+            this.arestaPrim.add(this.listaArestaChega.get(i));
+        }
+        for (int i = 0; i < this.listaArestaSai.size(); i++) {
+            this.arestaPrim.add(this.listaArestaSai.get(i));
+        }
+        Ordenador X = new Ordenador();                          //Ordenar A pelos valores de peso
+        Collections.sort(this.arestaPrim, X);
     }
 }

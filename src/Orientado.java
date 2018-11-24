@@ -30,6 +30,7 @@ public class Orientado {
             System.out.println("        6- Para criar a imagem");
             System.out.println("        7- Para usar o Algoritmo de dijkstra ");
             System.out.println("        8- Para usar o Algoritmo de Kruskal ");
+            System.out.println("        9- Para usar o Algoritmo de Prim");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
             menu = ler.nextInt();
@@ -80,11 +81,13 @@ public class Orientado {
                 }
             }
             if (menu == 4) {
-                System.out.println("Informe o nome da aresta a ser REMOVIDO(EX: 1@1@2): ");
+                System.out.println("Informe o nome da aresta a ser REMOVIDO: ");
                 String nomeAresta = ler.next();
                 Aresta x = grafo.getArestaPeloNome(nomeAresta);
-                Vertice v = x.getOrigem();
-                v.removeAresta(x);
+                Vertice vo = x.getOrigem();
+                Vertice vd = x.getDestino();
+                vo.removeAresta(x);
+                vd.removeAresta(x);
             }
             if (menu == 5) {
                 InformaConexoes(grafo);
@@ -114,6 +117,10 @@ public class Orientado {
 
             if (menu == 8) {
                 AlgoritmoKruskal(grafo);
+            }
+
+            if (menu == 9) {
+                AlgoritmoPrim(grafo);
             }
 
             if (menu == 99) {
@@ -146,8 +153,9 @@ public class Orientado {
         }
 
     }
-    
+
     private static void InformaCompleto(Grafo grafo) {
+
     }
 
     private static void AlgoritmoKruskal(Grafo grafo) throws IOException, CloneNotSupportedException {
@@ -189,19 +197,41 @@ public class Orientado {
 
     }
 
-    private static void AlgoritmoPrim(Grafo grafo){
+    private static void AlgoritmoPrim(Grafo grafo) throws IOException {
         Grafo g = grafo;
-        Grafo grafoPrim = new Grafo();
         Ordenador X = new Ordenador();                          //Ordenar A pelos valores de peso
         Collections.sort(g.getListaAresta(), X);
         Vertice v = g.getGrafo().get(0);
-        for (int i = 0; i < g.getGrafo().size(); i++) {
-            Collections.sort(v.getListaArestaSai(), X);
-            v.getListaArestaSai().get(0);
+        Grafo grafoPrim = new Grafo();
+
+        ArrayList<Aresta> listaArestas = new ArrayList<>();
+        ArrayList<Vertice> listaVertices = new ArrayList<>();
+
+        listaVertices.add(v);
+        for (int j = 0; j < g.getListaAresta().size(); j++) {
+            for (int i = 0; i < g.getListaAresta().size(); i++) {
+                Aresta a = g.getListaAresta().get(i);
+                if (listaVertices.contains(a.getA()) && !listaVertices.contains(a.getB())) {
+                    listaVertices.add(a.getB());
+                    listaArestas.add(a);
+                }
+                if (!listaVertices.contains(a.getA()) && listaVertices.contains(a.getB())) {
+                    listaVertices.add(a.getA());
+                    listaArestas.add(a);
+                }
+            }
         }
-    
+        for (int i = 0; i < listaVertices.size(); i++) {    //inserir os vertices no novo grafo
+            listaVertices.get(i).setVerticeSemAresta();     //Apagar as antigas aresta
+            grafoPrim.adicionarVertice(listaVertices.get(i));
+        }
+        for (int i = 0; i < listaArestas.size(); i++) {
+            grafoPrim.getVertice(listaArestas.get(i).getOrigem()).addAresta(listaArestas.get(i));  //pega a aresta e insere no vertice certo
+        }
+        //grafo de kruskol completo a partir daqui 
+        ImprimeGrafo(grafoPrim, "grafoPrim");
     }
-    
+
     private static void ImprimeGrafo(Grafo grafo, String arquivo) throws IOException {
         String g = "digraph graphname {";
         for (int i = 0; i < grafo.getGrafo().size(); i++) {
@@ -272,15 +302,15 @@ public class Orientado {
             grafo.getVertice("D").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
             grafo.addAresta(new Aresta(grafo.getVertice("D"), grafo.getVertice("F"), 6, ""));
             grafo.getVertice("D").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
-            grafo.addAresta(new Aresta(grafo.getVertice("B"), grafo.getVertice("C"), 8, ""));
+            grafo.addAresta(new Aresta(grafo.getVertice("B"), grafo.getVertice("C"), 13, ""));
             grafo.getVertice("B").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
-            grafo.addAresta(new Aresta(grafo.getVertice("B"), grafo.getVertice("E"), 7, ""));
+            grafo.addAresta(new Aresta(grafo.getVertice("B"), grafo.getVertice("E"), 12, ""));
             grafo.getVertice("B").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
-            grafo.addAresta(new Aresta(grafo.getVertice("E"), grafo.getVertice("C"), 5, ""));
+            grafo.addAresta(new Aresta(grafo.getVertice("E"), grafo.getVertice("C"), 4, ""));
             grafo.getVertice("E").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
             grafo.addAresta(new Aresta(grafo.getVertice("E"), grafo.getVertice("F"), 8, ""));
             grafo.getVertice("E").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
-            grafo.addAresta(new Aresta(grafo.getVertice("E"), grafo.getVertice("G"), 9, ""));
+            grafo.addAresta(new Aresta(grafo.getVertice("E"), grafo.getVertice("G"), 10, ""));
             grafo.getVertice("E").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
             grafo.addAresta(new Aresta(grafo.getVertice("G"), grafo.getVertice("F"), 11, ""));
             grafo.getVertice("G").addAresta(grafo.getListaAresta().get(grafo.getListaAresta().size() - 1));
