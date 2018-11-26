@@ -3,9 +3,9 @@ import java.util.List;
 
 public class Grafo {
 
-    private ArrayList<Vertice> grafo = new ArrayList<>();
-    private ArrayList<Aresta> ListaAresta = new ArrayList<>();
-    private ArrayList<Aresta> ListaArestaChega = new ArrayList<>();
+    public ArrayList<Vertice> grafo = new ArrayList<>();            //lista de todos os Vertice do grafo
+    public ArrayList<Aresta> ListaAresta = new ArrayList<>();       
+    public ArrayList<Aresta> ListaArestaChega = new ArrayList<>();
 
     public void setVertices(List<Vertice> vertices) {
         this.grafo.addAll(vertices);
