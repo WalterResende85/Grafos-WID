@@ -31,6 +31,7 @@ public class Orientado {
             System.out.println("        7- Para usar o Algoritmo de dijkstra ");
             System.out.println("        8- Para usar o Algoritmo de Kruskal ");
             System.out.println("        9- Para usar o Algoritmo de Prim");
+            System.out.println("        10- Para usar o algoritmo Malgrange");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
             menu = ler.nextInt();
@@ -121,6 +122,11 @@ public class Orientado {
 
             if (menu == 9) {
                 AlgoritmoPrim(grafo);
+            }
+            
+            if (menu == 10) {
+                Malgrange m = new Malgrange();
+                m.AlgoritmoMalgrange(grafo);
             }
 
             if (menu == 99) {
