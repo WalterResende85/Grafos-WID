@@ -1,16 +1,17 @@
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Grafo {
 
     public ArrayList<Vertice> grafo = new ArrayList<>();            //lista de todos os Vertice do grafo
-    public ArrayList<Aresta> ListaAresta = new ArrayList<>();       
+    public ArrayList<Aresta> ListaAresta = new ArrayList<>();
     public ArrayList<Aresta> ListaArestaChega = new ArrayList<>();
 
     public void setVertices(List<Vertice> vertices) {
         this.grafo.addAll(vertices);
     }
-    
+
     public void adicionarVertice(Vertice novoVertice) {
         this.grafo.add(novoVertice);
     }
@@ -99,13 +100,54 @@ public class Grafo {
     public void setListaArestaChega(ArrayList<Aresta> ListaArestaChega) {
         this.ListaArestaChega = ListaArestaChega;
     }
-    
-    public boolean contains(Vertice v){
-        for (int i = 0; i < this.grafo.size();i++) {
+
+    public boolean contains(Vertice v) {
+        for (int i = 0; i < this.grafo.size(); i++) {
             if (grafo.get(i).equals(v)) {
                 return true;
             }
         }
         return false;
-    }    
+    }
+
+    public void zerarVisitas() {
+        for (int i = 0; i < this.grafo.size(); i++) {
+            this.grafo.get(i).setVisitado(false);
+        }
+    }
+
+    public ArrayList<Vertice> FechoTransitivoDireto(Vertice v) {
+        ArrayList<Vertice> a = new ArrayList<>();
+        ArrayList<Vertice> auxiliar = new ArrayList<>();;
+        v.setVisitado(true);
+        for (int i = 0; i < v.getListaArestaSai().size(); i++) {
+            a.add(v.getListaArestaSai().get(i).getDestino());
+            if (!v.getListaArestaSai().get(i).getDestino().visitado) {
+                auxiliar = FechoTransitivoDireto(v.getListaArestaSai().get(i).getDestino());
+            }
+        }
+        for (int i = 0; i < auxiliar.size(); i++) {
+            a.add(auxiliar.get(i));
+        }
+        return a;
+    }
+    
+    public ArrayList<Vertice> FechoTransitivoInverso(Vertice v) {
+        ArrayList<Vertice> a = new ArrayList<>();
+        ArrayList<Vertice> auxiliar = new ArrayList<>();
+        v.setVisitado(true);
+        for (int i = 0; i < v.getListaArestaChega().size(); i++) {
+            a.add(v.getListaArestaChega().get(i).getOrigem());
+            if (!v.getListaArestaChega().get(i).getOrigem().visitado) {
+                auxiliar = FechoTransitivoDireto(v.getListaArestaChega().get(i).getOrigem());
+            }
+        }
+        for (int i = 0; i < auxiliar.size(); i++) {
+            a.add(auxiliar.get(i));
+        }
+        return a;
+    }
+    
+    
+
 }

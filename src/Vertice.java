@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,12 +12,16 @@ public class Vertice implements Comparable<Vertice> {
     private int grau = 0;
     //Dijkstra
     private int distancia;
-    private boolean visitado = false;
+    public boolean visitado = false;
     private Vertice pai;
     private List<Vertice> vizinhos = new ArrayList<Vertice>();
     private int MenorCaminho;
     //Dijkstra
+    //Malgrange
+    public List<Vertice> ftd = new ArrayList<Vertice>();        //fecho transitivo direto
+    public List<Vertice> fti = new ArrayList<Vertice>();        //fecho transitivo inverso
 
+    //Malgrange
     public Vertice(String nome) {
         this.nome = nome;
     }
@@ -26,10 +29,10 @@ public class Vertice implements Comparable<Vertice> {
     public Vertice() {
     }
 
-    public void setVerticeSemAresta(){
+    public void setVerticeSemAresta() {
         this.listaArestaSai.clear();
     }
-    
+
     public ArrayList<Aresta> getListaArestaSai() {
         return listaArestaSai;
     }
@@ -42,18 +45,18 @@ public class Vertice implements Comparable<Vertice> {
         this.listaArestaSai.add(a);
     }
 
-    public void addArestaChega(Aresta a){
+    public void addArestaChega(Aresta a) {
         this.listaArestaChega.add(a);
     }
-    
+
     public void removeAresta(Aresta v) {
         for (int i = 0; i < this.listaArestaChega.size(); i++) {
-            if(this.listaArestaChega.get(i).equals(v)){
+            if (this.listaArestaChega.get(i).equals(v)) {
                 listaArestaChega.remove(i);
             }
         }
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
-            if(this.listaArestaSai.get(i).equals(v)){
+            if (this.listaArestaSai.get(i).equals(v)) {
                 listaArestaSai.remove(i);
             }
         }
@@ -73,23 +76,23 @@ public class Vertice implements Comparable<Vertice> {
         return x;
     }
 
-    public int menorCaminhoParaX(Vertice x){
+    public int menorCaminhoParaX(Vertice x) {
         int y = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
-           if(listaArestaSai.get(i).getDestino().equals(x)){
-               y = listaArestaSai.get(i).getPeso();
-           }
+            if (listaArestaSai.get(i).getDestino().equals(x)) {
+                y = listaArestaSai.get(i).getPeso();
+            }
         }
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
-           if(listaArestaSai.get(i).getDestino().equals(x)){
-               if (listaArestaSai.get(i).getPeso() < y) {
-                   y = listaArestaSai.get(i).getPeso();
-               }
-           }
+            if (listaArestaSai.get(i).getDestino().equals(x)) {
+                if (listaArestaSai.get(i).getPeso() < y) {
+                    y = listaArestaSai.get(i).getPeso();
+                }
+            }
         }
         return y;
     }
-    
+
     public int apontaParaOutroVertice(String vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
         int x = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
@@ -218,7 +221,7 @@ public class Vertice implements Comparable<Vertice> {
     public void setMenorCaminho(int MenorCaminho) {
         this.MenorCaminho = MenorCaminho;
     }
-    
+
     //Dijkstra
     @Override
     public int compareTo(Vertice o) {
@@ -237,8 +240,8 @@ public class Vertice implements Comparable<Vertice> {
     public void setListaArestaChega(ArrayList<Aresta> listaArestaChega) {
         this.listaArestaChega = listaArestaChega;
     }
-    
-    public void arestaPrim(){
+
+    public void arestaPrim() {
         for (int i = 0; i < this.listaArestaChega.size(); i++) {
             this.arestaPrim.add(this.listaArestaChega.get(i));
         }
@@ -247,5 +250,18 @@ public class Vertice implements Comparable<Vertice> {
         }
         Ordenador X = new Ordenador();                          //Ordenar A pelos valores de peso
         Collections.sort(this.arestaPrim, X);
+    }
+
+    public ArrayList<Vertice> intercecaoFechosTransitivos() {
+        ArrayList<Vertice> a = new ArrayList<Vertice>();
+        for (int i = 0; i < ftd.size(); i++) {
+            for (int j = 0; j < fti.size(); j++) {
+                if (ftd.get(i) == fti.get(j)) {
+                    a.add(ftd.get(i));
+                    break;
+                }
+            }
+        }
+        return a;
     }
 }
