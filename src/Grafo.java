@@ -12,7 +12,7 @@ public class Grafo {
         this.grafo.addAll(vertices);
     }
 
-    public void adicionarVertice(Vertice novoVertice) {
+    public void addVertice(Vertice novoVertice) {
         this.grafo.add(novoVertice);
     }
 
@@ -28,14 +28,31 @@ public class Grafo {
         return grafo.get(grafo.lastIndexOf(v));
     }
 
-    public void removeVertice(String v) {
-        for (int i = 0; i < grafo.size(); i++) {
-            if (grafo.get(i).equals(v)) {
-                grafo.remove(i);
+    public void removeVertice(Vertice x) {
+        for (Vertice v : grafo) {    //remove esse vertice da vizinhança dos outros
+            v.removeVizinho(x);
+        }
+        ArrayList<Aresta> ArestasParaRemocao = new ArrayList<>();
+        for (Aresta a : ListaAresta) {
+            if (a.getA().equals(x) || a.getB().equals(x)) {
+                ArestasParaRemocao.add(a);
             }
         }
+        for (Aresta a : ArestasParaRemocao) {
+            ListaAresta.remove(a);
+            a.getA().removeAresta(a);
+            a.getB().removeAresta(a);
+        }
+        this.grafo.remove(x);
+
     }
 
+    
+    void removeAresta(Aresta a) {
+    a.getA().removeAresta(a);
+    a.getB().removeAresta(a);
+    }
+    
     public Vertice getVertice(String nome) {
         for (int i = 0; i < this.grafo.size(); i++) {
             if (this.grafo.get(i).getNome().equalsIgnoreCase(nome)) {
@@ -66,11 +83,11 @@ public class Grafo {
         return null;
     }
 
-    public int getGrauTotalDoVertice(int i) {
-        int x = 0;
-        x += this.grafo.get(i).getGrau();
-        x += this.numeroLigacoesDeXparaY(this.grafo.get(i));
-        return x;
+    public void setGrauDosVertices() {
+        for (Aresta a : ListaAresta) {
+            a.getA().grau++;
+            a.getB().grau++;
+        }
     }
 
     public int numeroLigacoesDeXparaY(String v) {
@@ -112,14 +129,14 @@ public class Grafo {
 
     public void zerarVisitas() {
         for (int i = 0; i < this.grafo.size(); i++) {
-            this.grafo.get(i).setVisitado(false);
+            this.grafo.get(i).setVisita(false);
         }
     }
 
     public ArrayList<Vertice> FechoTransitivoDireto(Vertice v) {
         ArrayList<Vertice> a = new ArrayList<>();
         ArrayList<Vertice> auxiliar = new ArrayList<>();;
-        v.setVisitado(true);
+        v.setVisita(true);
         for (int i = 0; i < v.getListaArestaSai().size(); i++) {
             a.add(v.getListaArestaSai().get(i).getDestino());
             if (!v.getListaArestaSai().get(i).getDestino().visitado) {
@@ -131,11 +148,11 @@ public class Grafo {
         }
         return a;
     }
-    
+
     public ArrayList<Vertice> FechoTransitivoInverso(Vertice v) {
         ArrayList<Vertice> a = new ArrayList<>();
         ArrayList<Vertice> auxiliar = new ArrayList<>();
-        v.setVisitado(true);
+        v.setVisita(true);
         for (int i = 0; i < v.getListaArestaChega().size(); i++) {
             a.add(v.getListaArestaChega().get(i).getOrigem());
             if (!v.getListaArestaChega().get(i).getOrigem().visitado) {
@@ -147,7 +164,6 @@ public class Grafo {
         }
         return a;
     }
-    
-    
+
 
 }

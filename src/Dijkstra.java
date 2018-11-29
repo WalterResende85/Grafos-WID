@@ -68,7 +68,7 @@ public class Dijkstra {
                 vizinho = atual.getListaArestaSai().get(i).getDestino();
                 System.out.println("Olhando o vizinho de " + atual + ": "
                         + vizinho);
-                if (!vizinho.verificarVisita()) {
+                if (!vizinho.getVisita()) {
 
                     // Comparando a distância do vizinho com a possível
                     // distância
@@ -106,7 +106,7 @@ public class Dijkstra {
             }
             // Marca o vertice atual como visitado e o retira da lista de nao
             // visitados
-            atual.visitar();
+            atual.setVisita(true);
             this.naoVisitados.remove(atual);
             /*
 			 * Ordena a lista, para que o vertice com menor distancia fique na

@@ -3,18 +3,16 @@ public class Aresta {
     private Vertice origem;
     private Vertice destino;
     private int peso;
+    boolean orientado = true;
     
-    public Aresta(String nome) {
-        this.nome = nome;
+    Aresta(Vertice origem, Vertice destino, int peso) {
+        this.nome = origem.getNome()+ destino.getNome();  //nome gerado automaticamente a partir dos vertices
         this.origem = origem;
+        origem.addVizinho(destino);
+        origem.addAresta(this);
         this.destino = destino;
-        this.peso = peso;
-    }
-
-    Aresta(Vertice origem, Vertice destino, int peso, String nome) {
-        this.nome = nome;
-        this.origem = origem;
-        this.destino = destino;
+        destino.addArestaChega(this);
+        destino.addVizinho(origem);
         this.peso = peso;
     }
 
