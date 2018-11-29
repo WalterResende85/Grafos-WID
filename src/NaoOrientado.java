@@ -27,7 +27,7 @@ public class NaoOrientado {
             if (menu == 1) {
                 System.out.println("Informe o nome do Vertice: ");
                 String nome = ler.next();
-                grafo.adicionarVertice(new Vertice(nome));  //cria e adiciona vertice ao grafo
+                grafo.addVertice(new Vertice(nome));  //cria e adiciona vertice ao grafo
             }
             if (menu == 2) {
                 System.out.println("");
@@ -38,11 +38,9 @@ public class NaoOrientado {
                 String nomeVerticeB = ler.next();
                 Vertice VerticeB = grafo.getVertice(nomeVerticeB);
                 if (VerticeA != null || VerticeB != null) {
-                    System.out.println("Informe o nome da aresta");
-                    String nomeAresta = ler.next();
                     System.out.println("Informe o peso da aresta");
                     int pesoAresta = ler.nextInt();
-                    grafo.addAresta(new Aresta(VerticeA, VerticeB, pesoAresta, nomeAresta));
+                    grafo.addAresta(new Aresta(VerticeA, VerticeB, pesoAresta));
                     VerticeA.addAresta(grafo.ListaAresta.get(grafo.ListaAresta.size()-1));
                     VerticeB.addAresta(grafo.ListaAresta.get(grafo.ListaAresta.size()-1));
                 } else {
