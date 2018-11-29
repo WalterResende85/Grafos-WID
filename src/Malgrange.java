@@ -21,7 +21,7 @@ public class Malgrange {
         for (int i = 0; i < grafo.grafo.size(); i++) {
             for (int j = 0; j < ift.size(); j++) {
                 if (grafo.grafo.get(i) == ift.get(j)) {
-                    grafo.grafo.get(i).setVisitado(true);
+                    grafo.grafo.get(i).setVisita(true);
                     break;
                 }
             }
