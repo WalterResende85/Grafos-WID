@@ -9,7 +9,7 @@ public class Vertice implements Comparable<Vertice> {
     private ArrayList<Aresta> listaArestaChega = new ArrayList();
     public ArrayList<Aresta> arestaPrim = new ArrayList<>();               //Usar no prim
     private String nome;
-    private int grau = 0;
+    public int grau = 0;
     //Dijkstra
     private int distancia;
     public boolean visitado = false;
@@ -20,23 +20,22 @@ public class Vertice implements Comparable<Vertice> {
     //Malgrange
     public List<Vertice> ftd = new ArrayList<Vertice>();        //fecho transitivo direto
     public List<Vertice> fti = new ArrayList<Vertice>();        //fecho transitivo inverso
-
     //Malgrange
     public Vertice(String nome) {
         this.nome = nome;
     }
 
-    public Vertice() {
+    public Vertice() {  //usado no Dijkstra
     }
-
+    
     public void setVerticeSemAresta() {
         this.listaArestaSai.clear();
     }
-
+    
     public ArrayList<Aresta> getListaArestaSai() {
         return listaArestaSai;
     }
-
+    
     public void setListaArestaSai(ArrayList<Aresta> listaArestaSai) {
         this.listaArestaSai = listaArestaSai;
     }
@@ -69,13 +68,7 @@ public class Vertice implements Comparable<Vertice> {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public int getGrau() {
-        int x = 0;
-        x = x + this.listaArestaSai.size();
-        return x;
-    }
-
+    
     public int menorCaminhoParaX(Vertice x) {
         int y = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
@@ -94,16 +87,6 @@ public class Vertice implements Comparable<Vertice> {
     }
 
     public int apontaParaOutroVertice(String vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
-        int x = 0;
-        for (int i = 0; i < this.listaArestaSai.size(); i++) {
-            if (this.listaArestaSai.get(i).getDestino().getNome().equals(vertice)) {
-                x++;
-            }
-        }
-        return x;
-    }
-
-    public int apontaParaOutroVertice(Vertice vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
         int x = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
             if (this.listaArestaSai.get(i).getDestino().getNome().equals(vertice)) {
@@ -167,50 +150,55 @@ public class Vertice implements Comparable<Vertice> {
 
     @Override
     public String toString() {
-        return this.nome;
+        return this.nome.toUpperCase();
     }
 
     //Dijkstra
     public void setDistancia(int distancia) {
-
         this.distancia = distancia;
     }
 
     public int getDistancia() {
-
         return this.distancia;
     }
 
-    public boolean verificarVisita() {
+    public boolean getVisita() {
         return visitado;
     }
 
-    public void visitar() {
-        this.visitado = true;
-    }
-
-    public void setVisitado(boolean visitado) {
+    public void setVisita(boolean visitado) {
         this.visitado = visitado;
     }
 
     public void setPai(Vertice pai) {
-
         this.pai = pai;
     }
 
     public Vertice getPai() {
-
         return this.pai;
     }
 
     public void setVizinhos(List<Vertice> vizinhos) {
-
         this.vizinhos.addAll(vizinhos);
 
     }
-
+    
+    public void addVizinho(Vertice vizinho){
+        if (!this.vizinhos.contains(vizinho)) {
+            this.vizinhos.add(vizinho);
+        }
+    }
+    
+    public void removeVizinho(Vertice vizinho){
+        for (Vertice v : this.vizinhos) {
+            if (v.equals(vizinho)) {
+                this.vizinhos.remove(v);
+                break;         //inseri o break por problema de concorencia(!)
+            }
+        }
+    }
+    
     public List<Vertice> getVizinhos() {
-
         return this.vizinhos;
     }
 
@@ -221,7 +209,6 @@ public class Vertice implements Comparable<Vertice> {
     public void setMenorCaminho(int MenorCaminho) {
         this.MenorCaminho = MenorCaminho;
     }
-
     //Dijkstra
     @Override
     public int compareTo(Vertice o) {
