@@ -1,9 +1,11 @@
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Vertice implements Comparable<Vertice> {
+public class Vertice implements Comparable<Vertice>,Serializable {
 
     private ArrayList<Aresta> listaArestaSai = new ArrayList();
     private ArrayList<Aresta> listaArestaChega = new ArrayList();
@@ -21,21 +23,22 @@ public class Vertice implements Comparable<Vertice> {
     public List<Vertice> ftd = new ArrayList<Vertice>();        //fecho transitivo direto
     public List<Vertice> fti = new ArrayList<Vertice>();        //fecho transitivo inverso
     //Malgrange
+
     public Vertice(String nome) {
         this.nome = nome;
     }
 
     public Vertice() {  //usado no Dijkstra
     }
-    
+
     public void setVerticeSemAresta() {
         this.listaArestaSai.clear();
     }
-    
+
     public ArrayList<Aresta> getListaArestaSai() {
         return listaArestaSai;
     }
-    
+
     public void setListaArestaSai(ArrayList<Aresta> listaArestaSai) {
         this.listaArestaSai = listaArestaSai;
     }
@@ -68,7 +71,7 @@ public class Vertice implements Comparable<Vertice> {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     public int menorCaminhoParaX(Vertice x) {
         int y = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
@@ -148,6 +151,21 @@ public class Vertice implements Comparable<Vertice> {
         return lista;
     }
 
+    String criaStringNaoOrientado() {
+        String lista = "";
+        if (this.listaArestaSai.isEmpty()) {
+            lista = this.nome + ";";
+        } else {
+            for (int i = 0; i < listaArestaSai.size(); i++) {
+                lista = lista + " " + this.nome;
+                lista = lista + " -- " + listaArestaSai.get(i).getDestino().getNome();
+                lista = lista + " [label=\"" + listaArestaSai.get(i).getNome() + " = " + listaArestaSai.get(i).getPeso() + "\", fontcolor=darkgreen] ";
+                lista = lista + " ;";
+            }
+        }
+        return lista;
+    }
+
     @Override
     public String toString() {
         return this.nome.toUpperCase();
@@ -182,14 +200,14 @@ public class Vertice implements Comparable<Vertice> {
         this.vizinhos.addAll(vizinhos);
 
     }
-    
-    public void addVizinho(Vertice vizinho){
+
+    public void addVizinho(Vertice vizinho) {
         if (!this.vizinhos.contains(vizinho)) {
             this.vizinhos.add(vizinho);
         }
     }
-    
-    public void removeVizinho(Vertice vizinho){
+
+    public void removeVizinho(Vertice vizinho) {
         for (Vertice v : this.vizinhos) {
             if (v.equals(vizinho)) {
                 this.vizinhos.remove(v);
@@ -197,7 +215,7 @@ public class Vertice implements Comparable<Vertice> {
             }
         }
     }
-    
+
     public List<Vertice> getVizinhos() {
         return this.vizinhos;
     }
@@ -209,6 +227,7 @@ public class Vertice implements Comparable<Vertice> {
     public void setMenorCaminho(int MenorCaminho) {
         this.MenorCaminho = MenorCaminho;
     }
+
     //Dijkstra
     @Override
     public int compareTo(Vertice o) {

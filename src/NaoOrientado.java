@@ -1,9 +1,10 @@
-
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NaoOrientado {
 
-    public static void NaoOrientado() {
+    public static void NaoOrientado() throws IOException {
         System.out.println("Orientado");
 
         int menu;
@@ -18,9 +19,6 @@ public class NaoOrientado {
             System.out.println("        4- Remover Aresta");
             System.out.println("        5- Informação");
             System.out.println("        6- Para criar a imagem");
-            System.out.println("        7- Para usar o Algoritmo de dijkstra ");
-            System.out.println("        8- Para usar o Algoritmo de Kruskal ");
-            System.out.println("        9- Para usar o Algoritmo de Prim");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
             menu = ler.nextInt();
@@ -41,11 +39,32 @@ public class NaoOrientado {
                     System.out.println("Informe o peso da aresta");
                     int pesoAresta = ler.nextInt();
                     grafo.addAresta(new Aresta(VerticeA, VerticeB, pesoAresta));
-                    VerticeA.addAresta(grafo.ListaAresta.get(grafo.ListaAresta.size()-1));
-                    VerticeB.addAresta(grafo.ListaAresta.get(grafo.ListaAresta.size()-1));
                 } else {
                     System.out.println("ARESTA NÂO FOI CRIADA!!!!!");
                 }
+            }
+            if (menu == 3) {
+                System.out.println("Informe o nome do vertice a ser REMOVIDO: ");
+                String verticeRemocao = ler.next();
+                Vertice v = grafo.getVertice(verticeRemocao);
+                if (v != null) {
+                    grafo.removeVertice(v);
+                } else {
+                    System.out.println("Vertice a ser removido não existe");
+                }
+            }
+            if (menu == 4) {
+                System.out.println("Informe o nome da aresta a ser REMOVIDO: ");
+                String nomeAresta = ler.next();
+                Aresta arestaRemocao = grafo.getArestaPeloNome(nomeAresta);
+                grafo.removeAresta(arestaRemocao);
+            }
+            if (menu == 5) {
+
+            }
+            if (menu == 6) {
+                Impressao i = new Impressao();
+                i.ImprimeGrafoNaoOrientado(grafo, "grafoNaoOrientado");
             }
         } while (menu != 0);
     }

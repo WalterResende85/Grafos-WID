@@ -1,13 +1,6 @@
-
-import edu.ifet.grafos.graphview.GraphView;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
-import java.util.List;
 
 public class Orientado {
 
@@ -30,8 +23,8 @@ public class Orientado {
             System.out.println("        6- Para criar a imagem");
             System.out.println("        7- Para usar o Algoritmo de dijkstra ");
             System.out.println("        8- Para usar o Algoritmo de Kruskal ");
-            System.out.println("        9- Para usar o Algoritmo de Prim");
-            System.out.println("        10- Para usar o algoritmo Malgrange");
+            System.out.println("        X9- Para usar o Algoritmo de Prim");
+            System.out.println("        X10- Para usar o algoritmo Malgrange");
             System.out.println("        11- Para usar o algoritmo de Busca em profundidade");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
@@ -102,11 +95,12 @@ public class Orientado {
             }
 
             if (menu == 8) {
-                AlgoritmoKruskal(grafo);
+                Kruskal k = new Kruskal();
+                k.AlgoritmoKruskal(grafo);
             }
 
             if (menu == 9) {
-                AlgoritmoPrim(grafo);
+                //AlgoritmoPrim(grafo);
             }
 
             if (menu == 10) {
@@ -154,83 +148,7 @@ public class Orientado {
     private static void InformaCompleto(Grafo grafo) {
 
     }
-
-    private static void AlgoritmoKruskal(Grafo grafo) throws IOException, CloneNotSupportedException {
-        Grafo g = grafo;
-        Grafo grafoKruskal = new Grafo();
-        Ordenador X = new Ordenador();                          //Ordenar A pelos valores de peso
-        Collections.sort(g.getListaAresta(), X);            //Ordenar A pelos valores de peso
-
-        ArrayList<Aresta> listaArestas = new ArrayList<>();
-        ArrayList<Vertice> listaVertices = new ArrayList<>();
-
-        listaArestas.add(g.getListaAresta().get(0));
-        listaVertices.add(g.getListaAresta().get(0).getA());
-        listaVertices.add(g.getListaAresta().get(0).getB());
-
-        for (int i = 1; i < g.getListaAresta().size(); i++) {
-            Aresta a = g.getListaAresta().get(i);
-            if (listaVertices.contains(a.getA()) && listaVertices.contains(a.getB())) {
-            }
-            if (!listaVertices.contains(a.getA()) && listaVertices.contains(a.getB())) {
-                listaArestas.add(g.getListaAresta().get(i));
-                listaVertices.add(a.getA());
-            }
-            if (!listaVertices.contains(a.getB()) && listaVertices.contains(a.getA())) {
-                listaArestas.add(g.getListaAresta().get(i));
-                listaVertices.add(a.getB());
-            }
-
-        }
-        for (int i = 0; i < listaVertices.size(); i++) {    //inserir os vertices no novo grafo
-            listaVertices.get(i).setVerticeSemAresta();     //Apagar as antigas aresta
-            grafoKruskal.addVertice(listaVertices.get(i));
-        }
-        for (int i = 0; i < listaArestas.size(); i++) {
-            grafoKruskal.getVertice(listaArestas.get(i).getOrigem()).addAresta(listaArestas.get(i));  //pega a aresta e insere no vertice certo
-        }
-        //grafo de kruskol completo a partir daqui 
-        Impressao i = new Impressao();
-        i.ImprimeGrafoOrientado(grafoKruskal, "grafoKruskal");
-
-    }
-
-    private static void AlgoritmoPrim(Grafo grafo) throws IOException {
-        Grafo g = grafo;
-        Ordenador X = new Ordenador();                          //Ordenar A pelos valores de peso
-        Collections.sort(g.getListaAresta(), X);
-        Vertice v = g.getGrafo().get(0);
-        Grafo grafoPrim = new Grafo();
-
-        ArrayList<Aresta> listaArestas = new ArrayList<>();
-        ArrayList<Vertice> listaVertices = new ArrayList<>();
-
-        listaVertices.add(v);
-        for (int j = 0; j < g.getListaAresta().size(); j++) {
-            for (int i = 0; i < g.getListaAresta().size(); i++) {
-                Aresta a = g.getListaAresta().get(i);
-                if (listaVertices.contains(a.getA()) && !listaVertices.contains(a.getB())) {
-                    listaVertices.add(a.getB());
-                    listaArestas.add(a);
-                }
-                if (!listaVertices.contains(a.getA()) && listaVertices.contains(a.getB())) {
-                    listaVertices.add(a.getA());
-                    listaArestas.add(a);
-                }
-            }
-        }
-        for (int i = 0; i < listaVertices.size(); i++) {    //inserir os vertices no novo grafo
-            listaVertices.get(i).setVerticeSemAresta();     //Apagar as antigas aresta
-            grafoPrim.addVertice(listaVertices.get(i));
-        }
-        for (int i = 0; i < listaArestas.size(); i++) {
-            grafoPrim.getVertice(listaArestas.get(i).getOrigem()).addAresta(listaArestas.get(i));  //pega a aresta e insere no vertice certo
-        }
-        //grafo de kruskol completo a partir daqui 
-        Impressao i = new Impressao();
-        i.ImprimeGrafoOrientado(grafoPrim, "grafoPrim");
-    }
-
+    
     private static Grafo GrafoTeste() {
         Grafo grafo = new Grafo();
         System.out.println("      1-Grafo k5");
@@ -265,6 +183,34 @@ public class Orientado {
             grafo.addAresta(new Aresta(C, E, 4));
 
             grafo.addAresta(new Aresta(D, E, 4));
+        }
+        if (menu == 3) {
+            grafo.addVertice(new Vertice("1"));
+            grafo.addVertice(new Vertice("2"));
+            grafo.addVertice(new Vertice("3"));
+            grafo.addVertice(new Vertice("4"));
+            grafo.addVertice(new Vertice("5"));
+            grafo.addVertice(new Vertice("6"));
+
+            Vertice UM = grafo.getVertice("1");
+            Vertice DOIS = grafo.getVertice("2");
+            Vertice TRES = grafo.getVertice("3");
+            Vertice QUATRO = grafo.getVertice("4");
+            Vertice CINCO = grafo.getVertice("5");
+            Vertice SEIS = grafo.getVertice("6");
+            
+            grafo.addAresta(new Aresta(CINCO, UM, 1 ));
+            grafo.addAresta(new Aresta(CINCO, DOIS, 7 ));
+            grafo.addAresta(new Aresta(CINCO, TRES, 3));
+            grafo.addAresta(new Aresta(CINCO, QUATRO, 4));
+            grafo.addAresta(new Aresta(CINCO, SEIS, 4));
+            
+            grafo.addAresta(new Aresta(SEIS, UM, 5));
+            grafo.addAresta(new Aresta(DOIS, UM, 2));
+            grafo.addAresta(new Aresta(DOIS, TRES, 3));
+            grafo.addAresta(new Aresta(TRES, QUATRO, 9));
+            
+            
         }
         if (menu == 4) {
             grafo.addVertice(new Vertice("1"));

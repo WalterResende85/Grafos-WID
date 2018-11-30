@@ -1,4 +1,7 @@
-public class Aresta {
+
+import java.io.Serializable;
+
+public class Aresta  implements Serializable {
     private String nome;
     private Vertice origem;
     private Vertice destino;

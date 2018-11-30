@@ -1,13 +1,15 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grafo {
+public class Grafo implements Serializable{
 
     public ArrayList<Vertice> grafo = new ArrayList<>();            //lista de todos os Vertice do grafo
     public ArrayList<Aresta> ListaAresta = new ArrayList<>();
     public ArrayList<Aresta> ListaArestaChega = new ArrayList<>();
 
+    
     public void setVertices(List<Vertice> vertices) {
         this.grafo.addAll(vertices);
     }
