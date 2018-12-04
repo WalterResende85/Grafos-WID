@@ -3,13 +3,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grafo implements Serializable{
+public class Grafo implements Serializable {
 
     public ArrayList<Vertice> grafo = new ArrayList<>();            //lista de todos os Vertice do grafo
     public ArrayList<Aresta> ListaAresta = new ArrayList<>();
-    public ArrayList<Aresta> ListaArestaChega = new ArrayList<>();
 
-    
     public void setVertices(List<Vertice> vertices) {
         this.grafo.addAll(vertices);
     }
@@ -46,15 +44,14 @@ public class Grafo implements Serializable{
             a.getB().removeAresta(a);
         }
         this.grafo.remove(x);
-
     }
 
-    
     void removeAresta(Aresta a) {
-    a.getA().removeAresta(a);
-    a.getB().removeAresta(a);
+        a.getA().removeAresta(a);
+        a.getB().removeAresta(a);
+        ListaAresta.remove(a);
     }
-    
+
     public Vertice getVertice(String nome) {
         for (int i = 0; i < this.grafo.size(); i++) {
             if (this.grafo.get(i).getNome().equalsIgnoreCase(nome)) {
@@ -86,6 +83,7 @@ public class Grafo implements Serializable{
     }
 
     public void setGrauDosVertices() {
+        zeraGrauDosVertices();
         for (Aresta a : ListaAresta) {
             a.getA().grau++;
             a.getB().grau++;
@@ -112,14 +110,6 @@ public class Grafo implements Serializable{
         return x;
     }
 
-    public ArrayList<Aresta> getListaArestaChega() {
-        return ListaArestaChega;
-    }
-
-    public void setListaArestaChega(ArrayList<Aresta> ListaArestaChega) {
-        this.ListaArestaChega = ListaArestaChega;
-    }
-
     public boolean contains(Vertice v) {
         for (int i = 0; i < this.grafo.size(); i++) {
             if (grafo.get(i).equals(v)) {
@@ -135,37 +125,106 @@ public class Grafo implements Serializable{
         }
     }
 
-    public ArrayList<Vertice> FechoTransitivoDireto(Vertice v) {
-        ArrayList<Vertice> a = new ArrayList<>();
-        ArrayList<Vertice> auxiliar = new ArrayList<>();;
-        v.setVisita(true);
-        for (int i = 0; i < v.getListaArestaSai().size(); i++) {
-            a.add(v.getListaArestaSai().get(i).getDestino());
-            if (!v.getListaArestaSai().get(i).getDestino().visitado) {
-                auxiliar = FechoTransitivoDireto(v.getListaArestaSai().get(i).getDestino());
-            }
+    void removeVerticeGrauDois(Vertice v) {
+        v.todasAsArestas();
+        List vizinhos = v.getVizinhos();
+        if (vizinhos.size() == 1) {
+            //
+        } else if (vizinhos.size() == 2) {
+            Vertice a = (Vertice) vizinhos.get(0);
+            Vertice b = (Vertice) vizinhos.get(1);
+            this.addAresta(new Aresta(a, b, 0));
         }
-        for (int i = 0; i < auxiliar.size(); i++) {
-            a.add(auxiliar.get(i));
-        }
-        return a;
+        this.removeVertice(v);
     }
 
-    public ArrayList<Vertice> FechoTransitivoInverso(Vertice v) {
-        ArrayList<Vertice> a = new ArrayList<>();
-        ArrayList<Vertice> auxiliar = new ArrayList<>();
-        v.setVisita(true);
-        for (int i = 0; i < v.getListaArestaChega().size(); i++) {
-            a.add(v.getListaArestaChega().get(i).getOrigem());
-            if (!v.getListaArestaChega().get(i).getOrigem().visitado) {
-                auxiliar = FechoTransitivoDireto(v.getListaArestaChega().get(i).getOrigem());
-            }
-        }
-        for (int i = 0; i < auxiliar.size(); i++) {
-            a.add(auxiliar.get(i));
-        }
-        return a;
+    void addListaArestas(ArrayList<Aresta> T) {
+        this.ListaAresta.addAll(T);
     }
 
+    void removeLoop() {
+        for (Vertice v : grafo) {
+            v.removeLoop();
+        }
+    }
 
+    boolean verificaGrau2() {
+        this.setGrauDosVertices();
+        for (Vertice v : grafo) {
+            if (v.grau == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean contemVisitado() {
+        for (Vertice v : grafo) {
+            if (v.visitado) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void removeParalelo() {
+        zerarVisitasArestas();
+        for (Aresta a : ListaAresta) {
+            for (Aresta b : ListaAresta) {
+                if (a.getA().equals(b.getA()) && a.getB().equals(b.getB()) && !a.equals(b) && !a.visitado) { // arestas diferentes com mesmos Vertices
+                    b.visitado = true;
+                }
+                if (a.getA().equals(b.getB()) && a.getB().equals(b.getA()) && !a.equals(b) && !a.visitado) { // arestas diferentes com mesmos Vertices
+                    b.visitado = true;
+                }
+            }
+        }
+        int i = ListaAresta.size() - 1;
+        while (this.contemVisitadoAresta()) {
+            if (i < 0) {
+                i = ListaAresta.size()-1;
+            }
+            if (this.ListaAresta.get(i).visitado) {
+                removeAresta(ListaAresta.get(i));
+                i--;
+            } else {
+                i--;
+            }
+        }
+    }
+
+    public void zerarVisitasArestas() {
+        for (Aresta a : ListaAresta) {
+            a.visitado = false;
+        }
+    }
+
+    private boolean contemVisitadoAresta() {
+        for (Aresta a : ListaAresta) {
+            if (a.visitado) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void zeraGrauDosVertices() {
+        for (Vertice vertice : grafo) {
+            vertice.grau = 0;
+        }
+    }
+
+    boolean TodosSaoGrau2() {
+        for (Vertice v : grafo) {
+            if (v.grau != 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void zeraGrafo() {
+        this.ListaAresta.clear();
+        this.grafo.clear();
+    }
 }
