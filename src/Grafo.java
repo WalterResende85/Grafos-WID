@@ -122,6 +122,8 @@ public class Grafo implements Serializable {
     public void zerarVisitas() {
         for (int i = 0; i < this.grafo.size(); i++) {
             this.grafo.get(i).setVisita(false);
+            this.grafo.get(i).ftd = false;
+            this.grafo.get(i).fti = false;
         }
     }
 

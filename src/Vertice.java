@@ -1,11 +1,12 @@
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Vertice implements Comparable<Vertice>,Serializable {
+public class Vertice implements Comparable<Vertice>, Serializable {
 
     private ArrayList<Aresta> listaArestaSai = new ArrayList();
     private ArrayList<Aresta> listaArestaChega = new ArrayList();
@@ -20,8 +21,11 @@ public class Vertice implements Comparable<Vertice>,Serializable {
     private int MenorCaminho;
     //Dijkstra
     //Malgrange
+    boolean ftd = false;   //fecho transitivo direto
+    boolean fti = false;   //fecho transitivo inverso
+    ArrayList<Vertice> conjuntoV = new ArrayList<>();
     //Malgrange
-
+    
 
     public Vertice(String nome) {
         this.nome = nome;
@@ -87,6 +91,7 @@ public class Vertice implements Comparable<Vertice>,Serializable {
         }
         return y;
     }
+
     public int apontaParaOutroVertice(String vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
         int x = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
@@ -114,7 +119,7 @@ public class Vertice implements Comparable<Vertice>,Serializable {
     @Override
     public boolean equals(Object o) {
         if (o instanceof Vertice) {
-            if (this.getNome() == ((Vertice) o).getNome()) {
+            if (this.getNome().equalsIgnoreCase(((Vertice) o).getNome())) {
                 return true;
             }
         }
@@ -261,12 +266,6 @@ public class Vertice implements Comparable<Vertice>,Serializable {
                 this.listaArestaSai.remove(a);
                 break;
             }
-        }
-    }
-
-    void removeParalelo() {
-        if (this.grau >= 2) {
-
         }
     }
 

@@ -174,11 +174,10 @@ public class Orientado {
     private static Grafo GrafoTeste() {
         Grafo grafo = new Grafo();
         System.out.println("      1-Grafo k5");
-        System.out.println("      2-Grafo k{3,3}");
-        System.out.println("      3-Grafo qualquer");
-        System.out.println("      4-Grafo teste para Largura");
-        System.out.println("      5-Grafo teste para Planaridade");
-        System.out.println("      6-Grafo teste para Malgrange");
+        System.out.println("      2-Grafo qualquer");
+        System.out.println("      3-Grafo teste para Largura");
+        System.out.println("      4-Grafo teste para Planaridade & Prim");
+        System.out.println("      5-Grafo teste para Malgrange");
         Scanner ler = new Scanner(System.in);
         int menu = ler.nextInt();
         if (menu == 1) {
@@ -208,7 +207,7 @@ public class Orientado {
 
             grafo.addAresta(new Aresta(D, E, 4));
         }
-        if (menu == 3) {
+        if (menu == 2) {
             grafo.addVertice(new Vertice("1"));
             grafo.addVertice(new Vertice("2"));
             grafo.addVertice(new Vertice("3"));
@@ -235,7 +234,7 @@ public class Orientado {
             grafo.addAresta(new Aresta(TRES, QUATRO, 9));
 
         }
-        if (menu == 4) {
+        if (menu == 3) {
             grafo.addVertice(new Vertice("1"));
             grafo.addVertice(new Vertice("2"));
             grafo.addVertice(new Vertice("3"));
@@ -265,7 +264,7 @@ public class Orientado {
             grafo.addAresta(new Aresta(SEIS, OITO, 5));
             grafo.addAresta(new Aresta(SETE, OITO, 2));
         }
-        if (menu == 5) {
+        if (menu == 4) {
             grafo.addVertice(new Vertice("A"));
             grafo.addVertice(new Vertice("B"));
             grafo.addVertice(new Vertice("C"));
@@ -286,7 +285,7 @@ public class Orientado {
             grafo.addAresta(new Aresta(C, E, 6));
             grafo.addAresta(new Aresta(D, E, 4));
         }
-        if (menu == 6) {
+        if (menu == 5) {
             grafo.addVertice(new Vertice("i"));
             grafo.addVertice(new Vertice("a"));
             grafo.addVertice(new Vertice("b"));

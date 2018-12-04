@@ -5,8 +5,8 @@ public class Aresta implements Serializable {
 
     static int a = 0;
     private String nome;
-    private Vertice origem;
-    private Vertice destino;
+    public Vertice origem;
+    public Vertice destino;
     private int peso;
     boolean orientado = true;
     boolean visitado = false;
