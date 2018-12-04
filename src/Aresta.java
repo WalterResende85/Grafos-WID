@@ -1,15 +1,18 @@
 
 import java.io.Serializable;
 
-public class Aresta  implements Serializable {
+public class Aresta implements Serializable {
+
+    static int a = 0;
     private String nome;
     private Vertice origem;
     private Vertice destino;
     private int peso;
     boolean orientado = true;
-    
+    boolean visitado = false;
+
     Aresta(Vertice origem, Vertice destino, int peso) {
-        this.nome = origem.getNome()+ destino.getNome();  //nome gerado automaticamente a partir dos vertices
+        this.nome = ++a + "";  //nome gerado automaticamente a partir dos vertices
         this.origem = origem;
         origem.addVizinho(destino);
         origem.addAresta(this);
@@ -19,6 +22,9 @@ public class Aresta  implements Serializable {
         this.peso = peso;
     }
 
+    Aresta() {
+    }
+
     public String getNome() {
         return nome;
     }
@@ -26,13 +32,12 @@ public class Aresta  implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
+
     @Override
     public String toString() {
-        return this.nome+"("+this.peso+")";
+        return this.nome + "(" + this.peso + ")";
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Aresta) {
@@ -41,11 +46,8 @@ public class Aresta  implements Serializable {
                 return true;
             }
         }
-        return false;
-    }
-    public boolean equals(String a) {
-        if (a instanceof String) {
-            if (this.getNome().equalsIgnoreCase(a)) {
+        if (obj instanceof String) {
+            if (this.getNome().equalsIgnoreCase((String)obj)) {
                 return true;
             }
         }
@@ -55,11 +57,11 @@ public class Aresta  implements Serializable {
     public Vertice getOrigem() {
         return origem;
     }
-    
+
     public Vertice getA() {
-    return origem;
+        return origem;
     }
-    
+
     public Vertice getDestino() {
         return destino;
     }
@@ -67,7 +69,7 @@ public class Aresta  implements Serializable {
     public Vertice getB() {
         return destino;
     }
-    
+
     public int getPeso() {
         return peso;
     }
