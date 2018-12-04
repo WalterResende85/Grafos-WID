@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,9 +24,10 @@ public class Orientado {
             System.out.println("        6- Para criar a imagem");
             System.out.println("        7- Para usar o Algoritmo de dijkstra ");
             System.out.println("        8- Para usar o Algoritmo de Kruskal ");
-            System.out.println("        X9- Para usar o Algoritmo de Prim");
+            System.out.println("        9- Para usar o Algoritmo de Prim");
             System.out.println("        X10- Para usar o algoritmo Malgrange");
             System.out.println("        11- Para usar o algoritmo de Busca em profundidade");
+            System.out.println("        12- Verificação de planaridade");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
             menu = ler.nextInt();
@@ -70,7 +72,12 @@ public class Orientado {
             if (menu == 5) {
                 InformaConexoes(grafo);
                 InformaRegularidade(grafo);
-                InformaCompleto(grafo);
+                if (InformaCompleto(grafo)) {
+                    System.out.println("Grafo Completo");
+                } else {
+                    System.out.println("Grafo NÃO Completo");
+                }
+
             }
             if (menu == 6) {
                 Impressao i = new Impressao();
@@ -100,7 +107,8 @@ public class Orientado {
             }
 
             if (menu == 9) {
-                //AlgoritmoPrim(grafo);
+                Prim p = new Prim();
+                p.AlgoritmoPrim(grafo);
             }
 
             if (menu == 10) {
@@ -116,6 +124,11 @@ public class Orientado {
                 b.AlgoritmoLargura(primeiro);
             }
 
+            if (menu == 12) {
+                GrafoPlanar gp = new GrafoPlanar();
+                gp.Planaridade(grafo);
+            }
+
             if (menu == 99) {
                 grafo = GrafoTeste();
             }
@@ -123,13 +136,13 @@ public class Orientado {
 
     }
 
-    private static void InformaConexoes(Grafo grafo) {
+    public static void InformaConexoes(Grafo grafo) {
         for (int i = 0; i < grafo.getGrafo().size(); i++) {
             grafo.getGrafo().get(i).apontaPara();
         }
     }
 
-    private static void InformaRegularidade(Grafo grafo) {
+    public static void InformaRegularidade(Grafo grafo) {
         boolean regular = true;
         grafo.setGrauDosVertices();
         for (Vertice v : grafo.grafo) {
@@ -145,16 +158,27 @@ public class Orientado {
 
     }
 
-    private static void InformaCompleto(Grafo grafo) {
-
+    public static boolean InformaCompleto(Grafo grafo) {
+        for (Vertice v : grafo.grafo) {
+            for (Vertice x : grafo.grafo) {
+                if (!v.equals(x)) {
+                    if (v.verificaVizinho(x)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
-    
+
     private static Grafo GrafoTeste() {
         Grafo grafo = new Grafo();
         System.out.println("      1-Grafo k5");
         System.out.println("      2-Grafo k{3,3}");
         System.out.println("      3-Grafo qualquer");
-        System.out.println("      4-Grafo para Largura");
+        System.out.println("      4-Grafo teste para Largura");
+        System.out.println("      5-Grafo teste para Planaridade");
+        System.out.println("      6-Grafo teste para Malgrange");
         Scanner ler = new Scanner(System.in);
         int menu = ler.nextInt();
         if (menu == 1) {
@@ -198,19 +222,18 @@ public class Orientado {
             Vertice QUATRO = grafo.getVertice("4");
             Vertice CINCO = grafo.getVertice("5");
             Vertice SEIS = grafo.getVertice("6");
-            
-            grafo.addAresta(new Aresta(CINCO, UM, 1 ));
-            grafo.addAresta(new Aresta(CINCO, DOIS, 7 ));
+
+            grafo.addAresta(new Aresta(CINCO, UM, 1));
+            grafo.addAresta(new Aresta(CINCO, DOIS, 7));
             grafo.addAresta(new Aresta(CINCO, TRES, 3));
             grafo.addAresta(new Aresta(CINCO, QUATRO, 4));
             grafo.addAresta(new Aresta(CINCO, SEIS, 4));
-            
+
             grafo.addAresta(new Aresta(SEIS, UM, 5));
             grafo.addAresta(new Aresta(DOIS, UM, 2));
             grafo.addAresta(new Aresta(DOIS, TRES, 3));
             grafo.addAresta(new Aresta(TRES, QUATRO, 9));
-            
-            
+
         }
         if (menu == 4) {
             grafo.addVertice(new Vertice("1"));
@@ -241,6 +264,64 @@ public class Orientado {
             grafo.addAresta(new Aresta(SEIS, SETE, 4));
             grafo.addAresta(new Aresta(SEIS, OITO, 5));
             grafo.addAresta(new Aresta(SETE, OITO, 2));
+        }
+        if (menu == 5) {
+            grafo.addVertice(new Vertice("A"));
+            grafo.addVertice(new Vertice("B"));
+            grafo.addVertice(new Vertice("C"));
+            grafo.addVertice(new Vertice("D"));
+            grafo.addVertice(new Vertice("E"));
+
+            Vertice A = grafo.getVertice("A");
+            Vertice B = grafo.getVertice("B");
+            Vertice C = grafo.getVertice("C");
+            Vertice D = grafo.getVertice("D");
+            Vertice E = grafo.getVertice("E");
+
+            grafo.addAresta(new Aresta(A, B, 1));
+            grafo.addAresta(new Aresta(A, C, 2));
+            grafo.addAresta(new Aresta(B, C, 8));
+            grafo.addAresta(new Aresta(B, D, 4));
+            grafo.addAresta(new Aresta(C, D, 7));
+            grafo.addAresta(new Aresta(C, E, 6));
+            grafo.addAresta(new Aresta(D, E, 4));
+        }
+        if (menu == 6) {
+            grafo.addVertice(new Vertice("i"));
+            grafo.addVertice(new Vertice("a"));
+            grafo.addVertice(new Vertice("b"));
+            grafo.addVertice(new Vertice("c"));
+            grafo.addVertice(new Vertice("h"));
+            grafo.addVertice(new Vertice("g"));
+            grafo.addVertice(new Vertice("d"));
+            grafo.addVertice(new Vertice("f"));
+            grafo.addVertice(new Vertice("e"));
+
+            Vertice I = grafo.getVertice("i");
+            Vertice A = grafo.getVertice("a");
+            Vertice B = grafo.getVertice("b");
+            Vertice C = grafo.getVertice("c");
+            Vertice H = grafo.getVertice("h");
+            Vertice G = grafo.getVertice("g");
+            Vertice D = grafo.getVertice("d");
+            Vertice F = grafo.getVertice("f");
+            Vertice E = grafo.getVertice("e");
+
+            grafo.addAresta(new Aresta(I, A, 1));
+            grafo.addAresta(new Aresta(I, G, 2));
+            grafo.addAresta(new Aresta(A, B, 8));
+            grafo.addAresta(new Aresta(B, C, 4));
+            grafo.addAresta(new Aresta(C, D, 7));
+            grafo.addAresta(new Aresta(D, B, 6));
+            grafo.addAresta(new Aresta(A, G, 4));
+            grafo.addAresta(new Aresta(G, H, 1));
+            grafo.addAresta(new Aresta(H, I, 2));
+            grafo.addAresta(new Aresta(H, A, 8));
+            grafo.addAresta(new Aresta(G, D, 4));
+            grafo.addAresta(new Aresta(F, G, 7));
+            grafo.addAresta(new Aresta(E, D, 6));
+            grafo.addAresta(new Aresta(F, E, 4));
+            grafo.addAresta(new Aresta(E, F, 4));
         }
         return grafo;
     }
