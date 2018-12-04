@@ -87,7 +87,6 @@ public class Vertice implements Comparable<Vertice>,Serializable {
         }
         return y;
     }
-
     public int apontaParaOutroVertice(String vertice) {              //devolve quantas ligacoes esse vertice faz com o vertice passado
         int x = 0;
         for (int i = 0; i < this.listaArestaSai.size(); i++) {
@@ -215,6 +214,15 @@ public class Vertice implements Comparable<Vertice>,Serializable {
         }
     }
 
+    public boolean verificaVizinho(Vertice vizinho) {
+        for (Vertice v : vizinho.vizinhos) {
+            if (v.equals(vizinho)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Vertice> getVizinhos() {
         return this.vizinhos;
     }
@@ -246,27 +254,25 @@ public class Vertice implements Comparable<Vertice>,Serializable {
         this.listaArestaChega = listaArestaChega;
     }
 
-    public void arestaPrim() {
-        for (int i = 0; i < this.listaArestaChega.size(); i++) {
-            this.arestaPrim.add(this.listaArestaChega.get(i));
-        }
-        for (int i = 0; i < this.listaArestaSai.size(); i++) {
-            this.arestaPrim.add(this.listaArestaSai.get(i));
-        }
-        Ordenador X = new Ordenador();                          //Ordenar A pelos valores de peso
-        Collections.sort(this.arestaPrim, X);
-    }
-
-    public ArrayList<Vertice> intercecaoFechosTransitivos() {
-        ArrayList<Vertice> a = new ArrayList<Vertice>();
-        for (int i = 0; i < ftd.size(); i++) {
-            for (int j = 0; j < fti.size(); j++) {
-                if (ftd.get(i) == fti.get(j)) {
-                    a.add(ftd.get(i));
-                    break;
-                }
+    void removeLoop() {
+        for (Aresta a : this.listaArestaChega) {
+            if (a.getA().equals(a.getB())) {
+                this.listaArestaChega.remove(a);
+                this.listaArestaSai.remove(a);
+                break;
             }
         }
-        return a;
+    }
+
+    void removeParalelo() {
+        if (this.grau >= 2) {
+
+        }
+    }
+
+    public ArrayList<Aresta> todasAsArestas() {
+        this.TodasAsArestas.addAll(listaArestaChega);
+        this.TodasAsArestas.addAll(listaArestaSai);
+        return TodasAsArestas;
     }
 }
