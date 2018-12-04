@@ -9,7 +9,7 @@ public class Vertice implements Comparable<Vertice>,Serializable {
 
     private ArrayList<Aresta> listaArestaSai = new ArrayList();
     private ArrayList<Aresta> listaArestaChega = new ArrayList();
-    public ArrayList<Aresta> arestaPrim = new ArrayList<>();               //Usar no prim
+    public ArrayList<Aresta> TodasAsArestas = new ArrayList<>();               //Usar no prim
     private String nome;
     public int grau = 0;
     //Dijkstra
@@ -20,9 +20,8 @@ public class Vertice implements Comparable<Vertice>,Serializable {
     private int MenorCaminho;
     //Dijkstra
     //Malgrange
-    public List<Vertice> ftd = new ArrayList<Vertice>();        //fecho transitivo direto
-    public List<Vertice> fti = new ArrayList<Vertice>();        //fecho transitivo inverso
     //Malgrange
+
 
     public Vertice(String nome) {
         this.nome = nome;
