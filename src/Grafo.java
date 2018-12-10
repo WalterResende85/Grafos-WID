@@ -34,21 +34,21 @@ public class Grafo implements Serializable {
         }
         ArrayList<Aresta> ArestasParaRemocao = new ArrayList<>();
         for (Aresta a : ListaAresta) {
-            if (a.getA().equals(x) || a.getB().equals(x)) {
+            if (a.getOrigem().equals(x) || a.getDestino().equals(x)) {
                 ArestasParaRemocao.add(a);
             }
         }
         for (Aresta a : ArestasParaRemocao) {
             ListaAresta.remove(a);
-            a.getA().removeAresta(a);
-            a.getB().removeAresta(a);
+            a.getOrigem().removeAresta(a);
+            a.getDestino().removeAresta(a);
         }
         this.grafo.remove(x);
     }
 
     void removeAresta(Aresta a) {
-        a.getA().removeAresta(a);
-        a.getB().removeAresta(a);
+        a.getOrigem().removeAresta(a);
+        a.getDestino().removeAresta(a);
         ListaAresta.remove(a);
     }
 
@@ -85,8 +85,8 @@ public class Grafo implements Serializable {
     public void setGrauDosVertices() {
         zeraGrauDosVertices();
         for (Aresta a : ListaAresta) {
-            a.getA().grau++;
-            a.getB().grau++;
+            a.getOrigem().grau++;
+            a.getDestino().grau++;
         }
     }
 
@@ -173,10 +173,10 @@ public class Grafo implements Serializable {
         zerarVisitasArestas();
         for (Aresta a : ListaAresta) {
             for (Aresta b : ListaAresta) {
-                if (a.getA().equals(b.getA()) && a.getB().equals(b.getB()) && !a.equals(b) && !a.visitado) { // arestas diferentes com mesmos Vertices
+                if (a.getOrigem().equals(b.getOrigem()) && a.getDestino().equals(b.getDestino()) && !a.equals(b) && !a.visitado) { // arestas diferentes com mesmos Vertices
                     b.visitado = true;
                 }
-                if (a.getA().equals(b.getB()) && a.getB().equals(b.getA()) && !a.equals(b) && !a.visitado) { // arestas diferentes com mesmos Vertices
+                if (a.getOrigem().equals(b.getDestino()) && a.getDestino().equals(b.getOrigem()) && !a.equals(b) && !a.visitado) { // arestas diferentes com mesmos Vertices
                     b.visitado = true;
                 }
             }
