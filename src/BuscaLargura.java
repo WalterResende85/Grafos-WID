@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class BuscaLargura {
 
     Grafo grafo;
-    Grafo grafoProfundidade = new Grafo();
+    Grafo grafoLargura = new Grafo();
     ArrayList<Vertice> filaVertice = new ArrayList<>();
 
     public BuscaLargura(Grafo grafo) throws IOException {
@@ -16,7 +16,7 @@ public class BuscaLargura {
     void AlgoritmoLargura(Vertice v) throws IOException {
         v.setVisita(true);
         
-        grafoProfundidade.addVertice(verticeClone(v));
+        grafoLargura.addVertice(verticeClone(v));
         
         filaVertice.add(v);
         while (!filaVertice.isEmpty()) {
@@ -25,14 +25,14 @@ public class BuscaLargura {
             for (Vertice z: i.getVizinhos()) {
                 if (!z.visitado) {
                     z.visitado = true;
-                    grafoProfundidade.addVertice(verticeClone(z));
-                    grafoProfundidade.addAresta(new Aresta(i,z,0));
+                    grafoLargura.addVertice(verticeClone(z));
+                    grafoLargura.addAresta(new Aresta(i,z,0));
                     filaVertice.add(z);
                 }
             }
         }
         Impressao i = new Impressao();
-        i.ImprimeArvoreLargura(grafoProfundidade ,"Largura");
+        i.ImprimeArvoreLargura(grafoLargura ,"Largura");
     }
     
     Vertice verticeClone(Vertice v){
