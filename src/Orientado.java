@@ -26,7 +26,7 @@ public class Orientado {
             System.out.println("        8- Para usar o Algoritmo de Kruskal ");
             System.out.println("        9- Para usar o Algoritmo de Prim");
             System.out.println("        X10- Para usar o algoritmo Malgrange");
-            System.out.println("        11- Para usar o algoritmo de Busca em profundidade");
+            System.out.println("        11- Para usar o algoritmo de Busca em Largura");
             System.out.println("        12- Verificação de planaridade");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
